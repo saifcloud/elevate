@@ -1,0 +1,201 @@
+.custom-container{
+    margin: 0 auto;
+    max-width: 1200px;
+}
+.navbar-header{
+    float: none;
+}
+
+.grid-sizer,
+.grid-item {
+	width: 14.6%
+}
+
+.gutter-sizer {
+	width: 1%
+}
+
+.result {
+	background-color: #fff;
+	cursor: pointer;
+	margin: 20px auto;
+	max-width: 240px
+}
+
+.result.vip-result {
+	background-color: #ffc
+}
+
+.main-load.result.top-result,
+.result.top-result {
+	background-color: #ff9
+}
+
+.result-image {
+	min-height: 50px;
+	height: auto;
+	overflow: hidden;
+	position: relative
+}
+
+.result-photo img {
+	display: block;
+	height: auto;
+	max-height: 400px;
+	width: 100%
+}
+
+.result-info {
+	background-color: rgba(61, 54, 38, 0.6);
+	bottom: 0;
+	color: #fff;
+	height: 25px;
+	line-height: 25px;
+	position: absolute;
+	right: 0;
+	width: 25%
+}
+
+.result-verified {
+	padding: 0 4em 0 10px;
+	position: absolute;
+	width: 100%
+}
+
+.progress-label {
+	margin-right: .3em
+}
+
+.result-verified .progress {
+	height: 14px;
+	margin: 18px 0
+}
+
+.result .result-image .top-icon {
+	width: 40px;
+	height: 20px;
+	display: none;
+	position: absolute;
+	top: 3px;
+	left: 3px
+}
+
+.result.main-load .result-image .top-icon,
+.result .result-image .top-icon {
+	display: inline-block
+}
+
+
+
+.result-image .badges {
+	position: absolute;
+	height: 20px;
+	left: 5px;
+	bottom: 5px
+}
+
+.result-image .badges .is-independent,
+.result-image .badges .has-video {
+	background-size: contain;
+	width: 20px;
+	height: 20px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	display: inline-block
+}
+
+.result-image .sexcam-badge::after {
+	content: "Sexcam"
+}
+
+.result-data {
+	margin: 15px
+}
+
+.result-rating {
+	line-height: 1.2em;
+	margin: 0 0 15px 0;
+	text-align: center
+}
+
+.rating-label,
+.result-subtitle .amount,
+.result-content-header {
+	color: #000;
+	font-weight: bold
+}
+
+.rating-label {
+	display: inline-block;
+	margin-right: 5px
+}
+
+.rating-stars {
+	color: #f2bb3a;
+	display: inline-block;
+	font-size: 1.2em;
+	margin-left: 5px
+}
+
+.result-header,
+.result-location,
+.result-phone,
+.result-content-header {
+	margin-bottom: 1em
+}
+
+.result-location,
+.result-phone,
+.result-content {
+	-ms-word-wrap: break-word;
+	word-wrap: break-word
+}
+
+.result-title {
+	font-size: 20px;
+	word-break: break-all
+}
+
+.result-content-header {
+	font-size: 1.1em
+}
+
+.result-content-main {
+	overflow-wrap: break-word
+}
+
+.escort-modal .modal-content {
+	background-color: rgba(243, 244, 248, 0.8)
+}
+
+.escort-modal .modal-dialog {
+	max-width: 1200px;
+	width: auto
+}
+
+.loading-more-results {
+	font-size: 48px;
+	text-align: center;
+	margin-top: 1em;
+	margin-bottom: 1em
+}
+
+.contact-form {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 50px;
+	top: 114px;
+	border: 0
+}
+
+@media screen and (max-width: 1420px){
+.grid-sizer, .grid-item {
+    width: 18%;
+}
+}
+
+.fancybox-container{
+    display: none !important;
+}

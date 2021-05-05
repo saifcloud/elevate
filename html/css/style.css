@@ -1,0 +1,973 @@
+
+/* //// button css ///// */
+
+body{
+    font-family: sans-serif;
+    padding: 0;
+    margin: 0;
+    background: #f3f4f8;
+}
+
+.header {
+    position: relative;
+    width: 100%;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding: 0 2px;
+}
+.navbar{
+  align-items: normal;
+  padding: 0 40px;
+}
+.navbar-collapse{
+  align-items: normal;
+}
+.navbar-nav{
+  align-items: normal;
+  margin-top: 15px;
+}
+.navbar-brand:hover{
+  color: #000;
+}
+.navbar-brand {
+  text-align: center;
+    width: 100%;
+    margin-top: 10px;
+}
+.navbar-brand img {
+    width: 100%;
+    max-width: 250px;
+    margin: auto;
+}
+.navbar-brand:focus, .navbar-brand:hover{
+  outline: none;
+}
+
+.ripple{
+    position: relative;
+    overflow: hidden; 
+  }
+  
+.ripple:before {
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.6);
+    content:'';
+    position: absolute;
+    top: 50%; left: 50%;
+    width:0; height:0;
+  }
+  
+.ripple:focus:before {
+    transition: all 0.5s ease-out;
+    opacity:0;
+    width:160px;
+    height:160px;
+    margin-top:-80px;
+    margin-left:-80px;
+}
+  
+.menubtn{
+  display: block;
+  background: #000;
+  color: #fff;
+  padding: 6px 5px;
+  border-radius: 5px;
+  border-color: #000;
+  outline: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s all ease-in-out;
+  max-width: 180px;
+  margin: auto;
+}
+.advertisesec{
+  text-align: center;
+}
+.menubtn:hover{
+  text-decoration: none;
+  color: #fff;
+}
+.menubtn:active, .menubtn:focus{
+  outline: none;
+}
+.defaultbtn {
+  display: block;
+  background: #000;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border-color: #000;
+  outline: none;
+  font-size: 14px;
+  cursor: pointer; 
+  letter-spacing: 0.5px;
+}
+button:active, button:focus{
+  outline: none;
+}
+
+/* ////////// Login page css /////////// */
+
+.loginwrapper{
+  padding: 60px 0 15px;
+}
+
+.loginwrapper .card{
+  max-width: 480px;
+  margin: auto;
+}
+.loginwrapper .card .card-header h5{
+  margin: 0;
+  font-weight: 500;
+}
+.loginwrapper .card .card-body{
+  padding-bottom: 0px;
+}
+
+.loginwrapper .card label{
+  font-weight: 600;
+}
+
+.footersec{
+  text-align: center;
+  padding: 25px 0 0;
+}
+.footersec p {
+  color: #000;
+  font-weight: 600;
+  font-size: 12px;
+}
+.footersec p a {
+  color: #000;
+  margin: 0 10px;
+}
+
+.form-control:focus, .form-control:active{
+  box-shadow: none;
+  border-color: #4e4e4e;
+}
+
+.mainwrapper{
+  padding: 30px 0 0;
+}
+.innerwrapper{
+  padding: 0 30px;
+}
+/* //////////////// country list page css ////////// */
+.countrycontentpara{
+  box-shadow:none;
+  padding: 0;
+  background: transparent;
+  border-radius: 0px;
+  margin: 0;
+}
+
+.countrylistsec{
+  box-shadow: 0 1px 6px 0 rgb(0 0 0 / 19%);
+  padding: 15px;
+  background: #fff;
+  border-radius: 5px;
+  margin: 25px 0;
+}
+.countrylistsec h5{
+  color: #000;
+}
+
+.countrylistsec h5 a{
+  color: #000;
+  letter-spacing: 0.5px;
+}
+
+.countrylistsec .listingul {
+  list-style: none; 
+  margin: 0;
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+  padding: 10px 0 0px 15px;
+}
+.countrylistsec .listingul li {
+  color: #000;
+  padding: 8px 0;
+}
+.bold-cities a{
+  font-weight: bold;
+}
+.countrylistsec .listingul li a {
+  color: #000;
+  transition: 0.2s all ease-in-out;
+  font-size: 14px;
+}
+.countrylistsec .listingul li a i{
+  margin-right: 5px;
+}
+.countrylistsec .listingul li a:hover{
+  text-decoration: none;
+  color: #4e4e4e;
+  margin-left: 5px;
+}
+.singlelink a{
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.2s all ease-in-out;
+  font-size: 14px;
+}
+.singlelink a i {
+  margin-right: 10px;
+}
+.singlelink a:hover{
+  margin-left: 5px;
+  color: #4e4e4e;
+}
+
+.highlights{
+  padding: 0;
+  list-style-type: none;
+  margin: 15px 0 0;
+  font-size: 14px;
+}
+
+.highlights li:last-child{
+  margin-right: 0;
+}
+.highlights li{
+  display: inline-block;
+  margin-right: 10px;
+}
+.highlight-title{
+  font-weight: 500;
+  background-color: white;
+  padding: 0 4px;
+  border-radius: 6px;
+}
+.highlights li a{
+  color: #000;
+}
+
+/* .secondlist {
+  padding: 50px 0 0;
+} */
+.countrylistsec p{
+  font-size: 14px;
+  text-align: center;
+  margin: 20px 0 0;
+}
+
+.detailheading h5 {
+  font-weight: bold;
+}
+.toplocation {
+  padding: 20px 0;
+}
+
+.toplocation h6 {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.toplocation ul {
+  list-style: none;
+  padding: 0;
+  margin: 25px 0 0;
+}
+.toplocation ul li {
+  display: inline-block;
+  font-size: 14px;
+}
+
+.toplocation ul li a {
+  color: #000;
+}
+
+.countrylistsec .listing .cities{
+  -webkit-column-count: 4;
+  -moz-column-count: 4;
+  column-count: 4;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+}
+
+.countrylistsec .listing .cities li a {
+  display: block;
+  padding: 6px 20px;
+  clear: both;
+  font-weight: 400;
+  color: #333;
+  white-space: nowrap;
+  font-size: 14px;
+  transition: 0.2s all ease-in-out;
+}
+.countrylistsec .listing .cities li a i {
+  margin-right: 5px;
+}
+.countrylistsec .listing .cities li a:hover {
+  margin-left: 5px;
+}
+
+.countrylistsec .listing .cities>li>a.with-ts {
+    display: inline-block;
+    padding-right: 0;
+    font-weight: bold;
+}
+.countrylistsec .listing .cities>li>a.ts {
+  display: inline-block;
+    font-weight: bold;
+    padding: 0;
+}
+.detailpara {
+  padding: 30px 0 0;
+  box-shadow:none !important;
+  background: transparent !important;
+  border-radius: 0px !important;
+  margin: 0 !important;
+}
+
+.detailpara p{
+  text-align: left;
+}
+
+/* ////// modal list css /////// */
+
+.dropdownlist {
+  padding: 35px 0 0;
+}
+
+/* /////////// Modal box popup ///////////// */
+.modallistcontent {
+  max-width: 850px;
+}
+
+.modallistcontent .modal-content{
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 600px;
+}
+
+.modallistcontent .modal-body{
+  padding: 0 10px;
+}
+.modallistcontent .modal-header{
+  padding: 0 10px;
+  border: none;
+}
+.modallistcontent .modal-header h5 {
+  font-weight: bold;
+  margin: 0;
+}
+.modallistcontent .class{padding-bottom: 0;}
+.cityinfo {text-align: right; font-size: 12px; font-weight: 400; color: #444; padding-right: 5px; margin: 0;}
+
+.leftcontent p{
+  font-size: 12px;
+  color: #000;
+  font-weight: 600;
+}
+
+.leftcontent h5{
+  color: #000;
+  font-weight: 600;
+}
+
+.leftcontent ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 15px;
+}
+.leftcontent ul li{
+  display: inline-block;
+  margin-right: 5px;
+  border-radius: 5px;
+  padding: 5px 8px;
+  font-size: 14px;
+  background: #ffff90;
+  margin-bottom: 5px;
+  color: #444;
+}
+.rates h6, .description h6{
+  color: #000;
+  font-weight: 600;
+  margin: 0;
+}
+.rates p{
+  color: #444;
+  font-size: 16px;
+  margin: 5px 0;
+}
+.rates p span{
+  color: #4e4e4e;
+}
+.description{margin: 15px 0 0;}
+.description p{
+  color: #000;
+  font-weight: 400;
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.rightcontent .img img{
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  padding: 10px 0;
+}
+.callbtn, .whtspbtn{
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  background: #7ac0c7;
+  font-weight: 500;
+  font-size: 18px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 6px 10px;
+  min-width: 133px;
+}
+.whtspbtn{
+  background: #35b548 !important;
+  color: #fff;
+  margin-left: -4px;
+}
+.whtspbtn img{
+  max-width: 18px;
+}
+.footerimg img{
+  width: 100%;
+  max-height: 420px;
+  max-width: 400px;
+  object-fit: cover;
+  padding: 10px;
+}
+.ads p{
+  font-size: 15px;
+  text-align: center;
+  margin: 0;
+  padding: 3px;
+  background: #e2efdd;
+  color: #909090;
+}
+
+.bottomfooter .card{
+  padding: 15px;
+  background: #f5f4f7;
+  margin: 15px;
+}
+.bottomfooter .card img{
+  width: 100%;
+  max-width: 180px;
+  height: 80px;
+  object-fit: cover;
+}
+.middlecontent h3{
+  font-weight: bold;
+}
+.middlecontent p{
+  margin: 0;
+}
+.middlecontent h6{
+  color: #909090;
+  margin: 0;
+  font-size: 15px;
+}
+.middlecontent h5{
+  margin: 20px 0 0;
+  font-style: italic;
+  color: #000;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.endcontent h6{
+  font-size: 16px;
+  text-align: right;
+}
+.endcontent img{max-width: 18px!important; height: auto !important;}
+/* .endcontent .whtspbtn img{
+  max-width: 18px !important;
+} */
+
+.endcontent .callbtn, .endcontent .whtspbtn{
+  min-width: 125px;
+  padding: 6px 8px;
+  margin-left: 0px;
+}
+.endcontent .ads p {font-size: 14px;}
+.bottomfooter {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.reportad{margin: 10px 15px 10px; border-top: 1px solid #ddd;}
+.reportadbtn{
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  background: #d9534f;
+  font-weight: 500;
+  font-size: 12px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 2px 5px;
+  color: #fff;
+  margin-top: 15px;
+}
+.modallistcontent .modal-header .close {
+  position: fixed;
+  right: 33px;
+  top: 19px;
+  background: #d4d3d3;
+  border-radius: 50%;
+  padding: 5px 10px;
+  z-index: 1;
+}
+
+/* ///////////////// Modal form css /////////// */
+
+.formwrapper{
+  padding: 40px 0 0;
+}
+
+.centerbrand {
+  width: 60%;
+  text-align: right;
+}
+
+.btn-green{
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background: #28a745;
+  font-weight: 500;
+  font-size: 16px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 5px 10px;
+  color: #fff;
+}
+.formtophead h3{
+  font-size: 24px;
+}
+.nb-calls-box{
+  width: auto;
+  float: right;
+  padding: 5px 10px;
+  background-color: #fef9d1;
+  border: 1px solid #dac200;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.nb-calls{
+    display: block;
+    font-size: 25px;
+    font-weight: 500;
+    color: #078812;
+}
+.last-hours{
+  display: block;
+}
+.mainpanel{
+  padding: 15px 0;
+}
+.mainpanel .form-control{
+  height: 30px !important;
+  font-size: 14px;
+}
+.panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px 0 rgb(0 0 0 / 19%);
+  border-color: #ddd;
+}
+
+.panelheading{
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.black-circle{
+  background-color: #000;
+  color: #fff;
+  height: 28px;
+  width: 28px;
+  display: inline-block;
+  line-height: 28px;
+  text-align: center;
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  border-radius: 14px;
+  font-weight: inherit;
+  margin-right: 5px;
+}
+
+/* ////// append data css ////// */
+
+.appendcard{
+  padding: 15px 25px;
+  margin: 20px 0;
+}
+
+.image-section{
+  height: 81px;
+  background-repeat: no-repeat;
+  margin-left: 35px;
+  background-position: left;
+}
+
+.options-section {
+  margin-bottom: 35px;
+}
+
+.options-section h4{
+  font-weight: 400;
+  display: inline-block;
+  font-size: 18px;
+  color: #4e4e4e;
+}
+
+.col-top-ad .options-section h4{
+  background-color: #ff9;
+  font-weight: 600;
+  display: inline-block;
+  font-size: 18px;
+}
+
+.h4-detail{
+  color: #fa490d;
+  font-size: 12px;
+  margin-left: 8px;
+}
+.options-section h5{
+  font-size: 14px;
+}
+
+.description-section ul {
+  list-style: none;
+}
+
+.description-section li:before {
+  content: '\f00c';
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-left: -15px;
+  width: 20px;
+}
+.description-section li {
+  font-size: 14px;
+}
+
+.options-section label{
+  display: block;
+  padding: 5px 0;
+  cursor: pointer;
+  margin-bottom: 2px;
+  font-weight: 400;
+  font-size: 14px;
+}
+.label-warning {
+  background-color: #f0ad4e;
+}
+
+.prime-fast-pass {
+  display: inline-block;
+  padding-left: 15px;
+  font-weight: normal;
+  background-image: url('../images/icon/fast_icon.png');
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: contain;
+  margin-left: 17px;
+  line-height: 20px;
+  height: 15px;
+}
+
+
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+
+.col-prime-ad .options-section .h4-detail {
+  background-image: url('../images/icon/popular_icon.png');
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding-left: 18px;
+  line-height: 22px;
+  height: 15px;
+  display: inline-block;
+}
+.col-prime-ad .options-section {
+  margin-bottom: 15px;
+}
+
+.col-top-ad .description-section li.not-included, .col-prime-ad .description-section li.not-included, .col-basic-ad .description-section li.not-included {
+  color: #b9bbbf;
+  font-weight: 400;
+}
+
+.label-success {
+  background-color: #5cb85c;
+}
+
+.subtitle{
+    background-color: #f8f6fa;
+    padding: 0px 30px;
+    line-height: 42px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.innerform{
+  padding: 25px 0;
+  padding-right: 15px;
+}
+.innerform label{
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.innerform .customcontrol{
+  height: auto !important;
+}
+
+
+/* //////////// custom service add checkbox css //////////// */
+.checkboxform{
+  padding: 15px 30px 0;
+}
+
+.services_ad input {
+  height: 0;
+  width: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  -moz-opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.services_ad .service_ad {
+  vertical-align: top;
+  border: 1px solid #e8e8e8;
+  color: #707070;
+  line-height: 30px;
+  height: 30px;
+  padding: 0 8px;
+  margin: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  width: 100%;
+  font-weight: 400;
+}
+
+.services_ad .service_ad_fav, .service_ad_sexcam {
+  display: inline-block;
+  position: absolute;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+  filter: alpha(opacity=7);
+  opacity: .7;
+  -moz-opacity: .7;
+}
+
+.fa.fa-sexcam {
+  width: 17px;
+  height: 15px;
+  background: url('../images/icon/cam-sex.png') no-repeat center center;
+  background-size: contain;
+  vertical-align: text-bottom;
+    margin-right: 5px;
+}
+
+.services_ad label {
+  text-align: left;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.form-check-inline{
+  vertical-align: top;
+  margin-right: 0;
+}
+
+.service_legend {
+  background-color: #333;
+  color: yellow;
+  font-size: 13px;
+  height: 16px;
+  width: 16px;
+  line-height: 16px;
+  margin-right: 4px;
+}
+
+.service_legend .opacity_07 {
+  opacity: .7;
+}
+
+.service_legend_text {
+  font-style: italic;
+  font-size: 13px;
+}
+
+.checkboxform label{
+  margin: 5px 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+
+/* ///////// upload images css ///////// */
+
+#uploader-photos-1 {
+  background-color: #fff9d1;
+}
+
+.uploader-photos, .uploader-videos {
+  max-width: 286px;
+  width: 100%;
+  height: 286px;
+  box-shadow: 0 1px 6px 0 rgb(0 0 0 / 19%);
+  padding: 16px;
+  margin: 15px auto;
+}
+
+.photo-layer, .video-layer {
+  height: 189px;
+  max-width: 252px;
+  padding: 6px 8px;
+  text-align: center;
+  border: solid 1px;
+  background-color: #f3f4f8;
+}
+
+.photo-layer img, .video-layer img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.img-thumbnail {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  padding: 4px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+.file-uploader-photos-btn, .file-uploader-videos-btn {
+  margin-top: 16px;
+}
+
+.qq-uploader {
+  position: relative;
+  width: 100%;
+}
+
+.qq-upload-drop-area, .qq-upload-extra-drop-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 30px;
+  z-index: 2;
+  background: #ff9797;
+  text-align: center;
+}
+
+.uploader-photos .qq-uploader .qq-upload-button, .file-uploader-videos-btn .upload-button {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.qq-upload-button {
+  display: block;
+  width: 105px;
+  padding: 7px 0;
+  text-align: center;
+  background: #800;
+  border-bottom: 1px solid #DDD;
+  color: #FFF;
+}
+
+
+.file-uploader-videos-btn .upload-button {
+  width: 105px;
+  padding: 7px 0;
+  text-align: center;
+  border-bottom: 1px solid #DDD;
+  color: #FFF;
+  cursor: pointer;
+}
+
+.uploader-photos .qq-upload-list {
+  display: none;
+}
+
+.qq-upload-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.btn-delete-photo, .btn-delete-video {
+  margin-top: 16px;
+  text-align: right;
+}
+
+.hidden {
+  display: none!important;
+}
+
+.blackpaymentbtn{
+  background: #000;
+  color: #fff;
+  font-size: 22px;
+}
+.blackpaymentbtn img{
+  max-width: 70px;
+  margin-right: 10px;
+}
+
+.uploadmodal{
+  position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;
+}
