@@ -16,9 +16,11 @@ class CreateSizesTable extends Migration
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('type');
+            $table->integer('sub_subcategory');
             $table->integer('subcategory');
             $table->integer('category');
-            $table->integer('status')->comment('1=>active')->default(0);
+            $table->integer('status')->comment('1=>active')->default(1);
             $table->integer('is_deleted')->comment('1=>deleted')->default(0);
             $table->timestamps();
         });

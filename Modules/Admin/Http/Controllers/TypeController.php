@@ -164,4 +164,18 @@ class TypeController extends Controller
 
           echo $html;
     }
+
+
+     public function get_type(Request $request){
+       $type = Type::where('subsubcategory_id',$request->subsubcategory_id)->where('status',1)->where('is_deleted',0)->latest()->get();
+           
+           $html= '<option value="">--select--</option>';
+           if(count($type) > 0){
+             foreach($type as $row ){
+             $html.= '<option value="'.$row->id.'">'.$row->en_type.'</option>';
+             }
+          }
+
+          echo $html;
+    }
 }

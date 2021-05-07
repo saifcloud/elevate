@@ -53,6 +53,7 @@ $.ajaxSetup({
 		     	     success:function(response){
                      console.log(response)
                      $('#subsubcategory').html('<option value="">--select--</option>');
+                      $('#type').html('<option value="">--select--</option>');
                      $('#subcategory').html(response);
 		     	     }
 		     })
@@ -108,6 +109,61 @@ $.ajaxSetup({
 		    }
 
      })
+    } );
+</script>
+
+
+
+<!-- size -->
+<script type="text/javascript">
+	$(document).ready( function () {
+     $('#size-table').DataTable();
+
+
+    
+     $('#subsubcategory').change(function(){
+
+	        if($(this).val() !=''){
+
+		     $.ajax({
+		     	     url:"{{ url('admin/get-type')}}",
+		     	     type:"POST",
+		     	     data:{subsubcategory_id:$(this).val()},
+		     	     success:function(response){
+                     console.log(response)
+                      $('#type').html(response);
+		     	     }
+		     })
+		    }
+
+     })
+    } );
+</script>
+
+
+<!-- size -->
+<script type="text/javascript">
+	$(document).ready( function () {
+     $('#color-table').DataTable();
+
+
+    
+     // $('#subsubcategory').change(function(){
+
+	    //     if($(this).val() !=''){
+
+		   //   $.ajax({
+		   //   	     url:"{{ url('admin/get-type')}}",
+		   //   	     type:"POST",
+		   //   	     data:{subsubcategory_id:$(this).val()},
+		   //   	     success:function(response){
+     //                 console.log(response)
+     //                  $('#type').html(response);
+		   //   	     }
+		   //   })
+		   //  }
+
+     // })
     } );
 </script>
 

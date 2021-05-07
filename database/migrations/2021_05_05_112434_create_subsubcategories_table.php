@@ -20,7 +20,7 @@ class CreateSubsubcategoriesTable extends Migration
             $table->string('ar_subsubcategory');
             $table->string('subcategory_id');
             $table->string('category_id');
-            $table->integer('status')->comment('1=>active')->default(0);
+            $table->integer('status')->comment('1=>active')->default(1);
             $table->integer('is_deleted')->comment('1=>deleted')->default(0);
             $table->timestamps();
         });

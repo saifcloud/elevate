@@ -48,6 +48,15 @@
                        <a href="{{ url('admin/type')}}"><i class="icon-bubbles"></i><span>Type</span></a>
                    </li>
 
+                    <li class="{{ isset($page_title) && $page_title =='Size' || $page_title =='Size create' || $page_title =='Type edit' ? 'active':''}}">
+                       <a href="{{ url('admin/size')}}"><i class="icon-bubbles"></i><span>Size</span></a>
+                   </li>
+
+
+                    <li class="{{ isset($page_title) && $page_title =='Color' || $page_title =='Color create' || $page_title =='Color edit' ? 'active':''}}">
+                       <a href="{{ url('admin/color')}}"><i class="icon-bubbles"></i><span>Color</span></a>
+                   </li>
+
 
 
                     <!-- <li><a href="{{ url('admin/size')}}"><i class="icon-bubbles"></i><span>Size</span></a></li> -->

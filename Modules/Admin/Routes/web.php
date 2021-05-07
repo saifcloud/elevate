@@ -72,6 +72,18 @@ Route::group(['prefix'=>'admin','middleware'=>['admin']],function() {
      Route::post('size-update','SizeController@update');
      Route::get('size-delete/{id}','SizeController@destroy');
 
+     Route::post('get-type','TypeController@get_type');
+
+
+
+      //color
+     Route::get('color','ColorController@index');
+     Route::get('color-create','ColorController@create');
+     Route::post('color-store','ColorController@store');
+     Route::get('color-edit/{id}','ColorController@edit');
+     Route::post('color-update','ColorController@update');
+     Route::get('color-delete/{id}','ColorController@destroy');
+
 
       Route::get('logout','AdminController@destroy');
 

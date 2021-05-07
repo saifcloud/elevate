@@ -7,7 +7,13 @@ use Illuminate\Http\Request;
 
 use App\Models\Category;
 use App\Models\Subcategory;
+use App\Models\Subsubcategory;
+use App\Models\Type;
 use App\Models\User;
+use App\Models\Size;
+use App\Models\Color;
+
+
 
 class VendorController extends Controller
 {
@@ -35,7 +41,7 @@ class VendorController extends Controller
 
 
        $data['status']  = true;
-       $data['data']    = [$basicinfo];
+       $data['data']    = ['basicinfo'=>$basicinfo];
        $data['message'] = 'Home page data.';
        return response()->json($data);
 
@@ -46,9 +52,35 @@ class VendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
+        if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
+
+        $user = User::where('id',$request->user_id)->where('auth_token',$request->token)->first();
+        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
+
+         $size = Size::where('subsubcategory_id',$request->sub_subcategory_id)
+        ->where('subcategory_id',$request->subcategory_id)
+        ->where('status',1)
+        ->where('is_deleted',0)
+        ->get();
+
+         $color = Color::where('subsubcategory_id',$request->sub_subcategory_id)
+        ->where('subcategory_id',$request->subcategory_id)
+        ->where('status',1)
+        ->where('is_deleted',0)
+        ->get();
+
+
+       $data['status']  = true;
+       $data['data']    = ['sizes'=>$size,'colors'=>$color];
+       $data['message'] = 'Selected category and subcategory attributes.';
+       return response()->json($data);
+
+
+
     }
 
     /**

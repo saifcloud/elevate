@@ -19,4 +19,12 @@ class Subsubcategory extends Model
      public function type(){
     	return $this->hasMany('App\Models\Type','subsubcategory_id','id');
     }
+
+    public function size(){
+        return $this->hasMany('App\Models\Size','subsubcategory_id','id');
+    }
+
+     public function color(){
+        return $this->hasMany('App\Models\Color','subsubcategory_id','id');
+    }
 }
