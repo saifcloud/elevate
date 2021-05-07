@@ -12,4 +12,11 @@ class Vendor_subcategory extends Model
     public function subcategory(){
     	return $this->hasOne('App\Models\Subcategory','id','subcategory_id');
     }
+    public function sub_subcategory(){
+    	return $this->hasMany('App\Models\Subsubcategory','subcategory_id','subcategory_id')->with('type');
+    }
+
+    // public function type(){
+    // 	return $this->hasMany('App\Models\Subsubcategory','id','subsubcategory_id');
+    // }
 }

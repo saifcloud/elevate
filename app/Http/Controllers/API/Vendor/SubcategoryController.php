@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Subsubcategory;
 use App\Models\Subcategory;
 use App\Models\Category;
 use App\Models\User;
@@ -42,16 +43,24 @@ class SubcategoryController extends Controller
         $user = User::where('id',$request->user_id)->where('auth_token',$request->token)->first();
         if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
            
-        $rawdata = [];   
+
+        $rawdata =[];
         foreach ($user->vendor_subcategory as $key => $value) {
-            # code...
+ 
             $rawdata[] =  [
+                'id' =>$value->subcategory->id,
                 'en_subcategory' => $value->subcategory->en_subcategory,
-                'ar_subcategory' => $value->subcategory->ar_subcategory
+                'ar_subcategory' => $value->subcategory->ar_subcategory,
+                'sub_subcategory'=> $value->sub_subcategory
             ];
         }
+        
+       $data['status'] = true;
+       $data['status'] = ['data'=>$rawdata];
+       $data['message'] = "Vendor category tree.";
+       return response()->json($data);
 
-       return $rawdata;
+
        
 
 

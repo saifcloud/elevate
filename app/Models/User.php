@@ -46,6 +46,9 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Category','id','category_id');
     }
     public function vendor_subcategory(){
-        return $this->hasMany('App\Models\Vendor_subcategory','vendor_id','id');
+        return $this->hasMany('App\Models\Vendor_subcategory','category_id','category_id');
     }
+    // public function vendor_sub_subcategory(){
+    //     return $this->hasMany('App\Models\Subsubcategory','category_id','category_id');
+    // }
 }

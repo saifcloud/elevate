@@ -15,4 +15,8 @@ class Subsubcategory extends Model
      public function subcategory(){
     	return $this->hasOne('App\Models\Subcategory','id','subcategory_id');
     }
+
+     public function type(){
+    	return $this->hasMany('App\Models\Type','subsubcategory_id','id');
+    }
 }

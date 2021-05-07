@@ -116,7 +116,8 @@ class AuthController extends Controller
     public function store(Request $request)
     {
         //
-
+        
+        // return Hash::make($request->password);
          if(empty($request->loginby)) return response()->json(['status'=>false,'message'=>'Login by is required.']);
 
          if(filter_var(($request->loginby), FILTER_VALIDATE_EMAIL)){
