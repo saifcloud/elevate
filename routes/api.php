@@ -5,11 +5,19 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
 
+
+//vendor
 use App\Http\Controllers\API\Vendor\CategoryController;
 use App\Http\Controllers\API\Vendor\VendorController;
 use App\Http\Controllers\API\Vendor\ProfileController;
 use App\Http\Controllers\API\Vendor\ProductController;
 use App\Http\Controllers\API\Vendor\SubcategoryController;
+
+
+
+//shopper
+
+use App\Http\Controllers\API\Shopper\ShopperController;
 
 
 /*
@@ -35,16 +43,29 @@ Route::group(['prefix'=>'vendor'],function(){
 
 	Route::post('home',[VendorController::class,'index']);
 
+	Route::post('subcategory-selected-products',[ProductController::class,'index']);
+
+
+    //PROFILE
 	Route::post('get-profile-details',[ProfileController::class,'index']);
 
 	Route::post('update-profile-details',[ProfileController::class,'store']);
+   
 
+   //ADD PRODUCT
 	Route::post('get-vendor-subcategory',[SubcategoryController::class,'create']);
 
 	Route::post('get-color-size-for-product',[VendorController::class,'create']);
 
 	Route::post('add-product',[ProductController::class,'store']);
 
+});
+
+
+
+Route::group(['prefix'=>'shopper'],function(){
+
+	Route::post('home',[ShopperController::class,'index']);
 });
 
 

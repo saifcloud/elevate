@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Product_size extends Model
 {
     use HasFactory;
+
+    public function size(){
+    	return $this->hasOne('App\Models\Size','id','size_id');
+    }
 }

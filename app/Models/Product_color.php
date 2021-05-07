@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Product_color extends Model
 {
     use HasFactory;
+
+    public function color(){
+    	return $this->hasOne('App\Models\Color','id','color_id');
+    }
 }

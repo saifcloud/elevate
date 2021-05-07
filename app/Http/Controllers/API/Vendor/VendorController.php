@@ -12,6 +12,7 @@ use App\Models\Type;
 use App\Models\User;
 use App\Models\Size;
 use App\Models\Color;
+use App\Models\Product;
 
 
 
@@ -25,6 +26,10 @@ class VendorController extends Controller
     public function index(Request $request)
     {
         //
+        if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
+        if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
+
+
        $user = User::where('id',$request->user_id)->where('auth_token',$request->token)->first();
        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
         
@@ -38,10 +43,69 @@ class VendorController extends Controller
         'following'=>250,
         'rating'=>4
        ];
+       
+       $categoryRaw = [];
+       foreach ($user->vendor_subcategory as $key => $value) {
+           # code...
+        $categoryRaw[] = [
+            'id' =>$value->subcategory->id,
+            'en_subcategory' =>$value->subcategory->en_subcategory,
+            'ar_subcategory' =>$value->subcategory->ar_subcategory,
+            
+        ];
+       }
+        
+        $subcategory_id = $user->vendor_subcategory->first()->subcategory->id;
+        $product        = Product::where('subcategory_id',$subcategory_id)
+                                                        ->where('vendor_id',$user->id)
+                                                        ->where('status',1)
+                                                        ->where('is_deleted',0)
+                                                        // ->limit(18)
+                                                        ->get(); 
+        $productRaw = [];    
+        foreach ($product as $key => $value) {
 
+            $rawSize  =[];
+            foreach ($value->product_size as $key1 => $value1) {
+               $rawSize[] = [
+                'id'=>$value1->size->id,
+                'name'=>$value1->size->name
+               ];
+            }
+
+
+            $rawColor = [];
+            foreach ($value->product_color as $key2 => $value2) {
+               $rawColor[] = [
+                'id'=>$value2->color->id,
+                'name'=>$value2->color->name,
+                'img1'=>$value2->img1,
+                'img2'=>($value2->img2) ? $value2->img2:'',
+                'img3'=>($value2->img3) ? $value2->img3:'',
+                'img4'=>($value2->img4) ? $value2->img4:'',
+               ]; 
+            }
+
+
+            $productRaw[] = [
+                'id'                =>$value->id, 
+                'title'             =>$value->title, 
+                'description'       =>$value->description, 
+                'img1'              =>$value->img1,
+                'img2'              =>($value->img2) ? $value->img2:'',
+                'img3'              =>($value->img3) ? $value->img3:'',
+                'img4'              =>($value->img4) ? $value->img4:'', 
+                'sub_subcategory_id'=>$value->sub_subcategory_id, 
+                'subcategory_id'    =>$value->subcategory_id, 
+                'category_id'       =>$value->category_id,
+                'price'             =>$value->price,
+                'product_size'      =>$rawSize,
+                'product_color'     =>$rawColor
+            ];
+        }
 
        $data['status']  = true;
-       $data['data']    = ['basicinfo'=>$basicinfo];
+       $data['data']    = ['basicinfo'=>$basicinfo,'subcategory'=>$categoryRaw,'product'=>$productRaw,'selected_subcategory'=>$subcategory_id];
        $data['message'] = 'Home page data.';
        return response()->json($data);
 

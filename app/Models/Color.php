@@ -23,4 +23,6 @@ class Color extends Model
      public function type(){
     	return $this->hasOne('App\Models\Type','id','type_id');
     }
+
+    
 }

@@ -16,9 +16,73 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // subcategory-selected-products
     public function index(Request $request)
     {
         //
+        if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
+        if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
+
+        $user = User::where('id',$request->user_id)->where('auth_token',$request->token)->first();
+        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
+
+
+        $product        = Product::where('subcategory_id',$request->subcategory_id)
+                                                        ->where('vendor_id',$user->id)
+                                                        ->where('status',1)
+                                                        ->where('is_deleted',0)
+                                                        // ->limit(18)
+                                                        ->get(); 
+        $productRaw = [];    
+        foreach ($product as $key => $value) {
+
+            $rawSize  =[];
+            foreach ($value->product_size as $key1 => $value1) {
+               $rawSize[] = [
+                'id'=>$value1->size->id,
+                'name'=>$value1->size->name
+               ];
+            }
+
+
+            $rawColor = [];
+            foreach ($value->product_color as $key2 => $value2) {
+               $rawColor[] = [
+                'id'=>$value2->color->id,
+                'name'=>$value2->color->name,
+                'img1'=>$value2->img1,
+                'img2'=>($value2->img2) ? $value2->img2:'',
+                'img3'=>($value2->img3) ? $value2->img3:'',
+                'img4'=>($value2->img4) ? $value2->img4:'',
+               ]; 
+            }
+
+            $productRaw[] = [
+                'id'                =>$value->id, 
+                'title'             =>$value->title, 
+                'description'       =>$value->description, 
+                'img1'              =>$value->img1,
+                'img2'              =>($value->img2) ? $value->img2:'',
+                'img3'              =>($value->img3) ? $value->img3:'',
+                'img4'              =>($value->img4) ? $value->img4:'', 
+                'sub_subcategory_id'=>$value->sub_subcategory_id, 
+                'subcategory_id'    =>$value->subcategory_id, 
+                'category_id'       =>$value->category_id,
+                'price'             =>$value->price,
+                'product_size'      =>$rawSize,
+                'product_color'     =>$rawColor,
+                'reviews'           =>'';
+            ];
+        }
+
+
+       $data['status']  = true;
+       $data['data']    = ['product'=>$productRaw,'selected_subcategory'=>$request->subcategory_id];
+       $data['message'] = 'Home page data.';
+       return response()->json($data);
+
+
         
     }
 
@@ -59,13 +123,13 @@ class ProductController extends Controller
         $file1 = $request->image[0];
         $filename1 = time().'1.'.$file1->getClientOriginalExtension();
         $file1->move('public/images/product', $filename1);
-        $product->img1                 = $filename1;
+        $product->img1                 = '/public/images/product/'.$filename1;
 
         if(isset($request->image[1])){
         $file2 = $request->image[1];
         $filename2 = time().'2.'.$file2->getClientOriginalExtension();
         $file2->move('public/images/product', $filename2);  
-        $product->img2                 = $filename2;
+        $product->img2                 = '/public/images/product/'.$filename2;
         }
         
         
@@ -73,7 +137,7 @@ class ProductController extends Controller
         $file3 = $request->image[2];
         $filename3 = time().'3.'.$file3->getClientOriginalExtension();
         $file3->move('public/images/product', $filename3);
-        $product->img3                 = $filename3;
+        $product->img3                 = '/public/images/product/'.$filename3;
         }
        
         
@@ -81,7 +145,7 @@ class ProductController extends Controller
         $file4 = $request->image[3];
         $filename4 = time().'4.'.$file4->getClientOriginalExtension();
         $file4->move('public/images/product', $filename4);
-        $product->img4                 = $filename4;
+        $product->img4                 = '/public/images/product/'.$filename4;
         }
         
  
@@ -111,20 +175,20 @@ class ProductController extends Controller
                 $file5 = $value[0];
                 $filename5 = time().$key.'1.'.$file5->getClientOriginalExtension();
                 $file5->move('public/images/product', $filename5);
-                $p_size->img1        = $filename5;
+                $p_size->img1        = '/public/images/product/'.$filename5;
 
                 if(isset($value[1])){
                 $file6 = $value[1];
                 $filename6 = time().$key.'2.'.$file6->getClientOriginalExtension();
                 $file6->move('public/images/product', $filename6);
-                $p_size->img2        = $filename6;
+                $p_size->img2        = '/public/images/product/'.$filename6;
                 }
 
                 if(isset($value[2])){
                 $file7 = $value[2];
                 $filename7 = time().$key.'3.'.$file7->getClientOriginalExtension();
                 $file7->move('public/images/product', $filename7);
-                 $p_size->img3        = $filename7;
+                 $p_size->img3        = '/public/images/product/'.$filename7;
                 }
 
 
@@ -132,7 +196,7 @@ class ProductController extends Controller
                 $file8 = $value[3];
                 $filename8 = time().$key.'4.'.$file8->getClientOriginalExtension();
                 $file8->move('public/images/product', $filename8);
-                $p_size->img4        = $filename8;
+                $p_size->img4        = '/public/images/product/'.$filename8;
                 }
                 
                 $p_size->save();

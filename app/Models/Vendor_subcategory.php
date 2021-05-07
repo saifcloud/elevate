@@ -10,7 +10,7 @@ class Vendor_subcategory extends Model
     use HasFactory;
 
     public function subcategory(){
-    	return $this->hasOne('App\Models\Subcategory','id','subcategory_id');
+    	return $this->hasOne('App\Models\Subcategory','id','subcategory_id')->orderby('id','desc');
     }
     public function sub_subcategory(){
     	return $this->hasMany('App\Models\Subsubcategory','subcategory_id','subcategory_id')->with('type');
