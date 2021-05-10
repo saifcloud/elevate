@@ -18,6 +18,10 @@ use App\Http\Controllers\API\Vendor\SubcategoryController;
 //shopper
 
 use App\Http\Controllers\API\Shopper\ShopperController;
+use App\Http\Controllers\API\Shopper\ProductController as ShopperProduct;
+use App\Http\Controllers\API\Shopper\ProfileController as ShopperProfile;
+use App\Http\Controllers\API\Shopper\CartController;
+use App\Http\Controllers\API\Shopper\OrderController;
 
 
 /*
@@ -64,8 +68,47 @@ Route::group(['prefix'=>'vendor'],function(){
 
 
 Route::group(['prefix'=>'shopper'],function(){
-
+    
+    //home
 	Route::post('home',[ShopperController::class,'index']);
+    
+    //store profile
+	Route::post('store-details',[ShopperController::class,'store_details']);
+    
+    //explorer
+	Route::post('products-list',[ShopperProduct::class,'index']);
+
+	//store list
+	Route::post('show-stores-list',[ShopperController::class,'show_stores_list']);
+
+	//store products
+	Route::post('store-products',[ShopperProduct::class,'store_products']);
+
+
+	//like
+	Route::post('like',[ShopperController::class,'like']);
+
+	//liked list
+	Route::post('like-list',[ShopperController::class,'like_list']);
+
+    //profile
+	Route::post('profile',[ShopperProfile::class,'index']);
+
+	 //profile
+	Route::post('profile-update',[ShopperProfile::class,'store']);
+
+	//follow unfollow
+	Route::post('follow',[ShopperProfile::class,'follow']);
+
+	//add to cart
+	Route::post('add-to-cart',[CartController::class,'store']);
+   
+
+    //cart
+	Route::post('cart',[CartController::class,'index']);
+
+	//order
+	Route::post('order',[OrderController::class,'index']);
 });
 
 

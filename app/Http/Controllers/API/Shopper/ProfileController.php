@@ -5,6 +5,10 @@ namespace App\Http\Controllers\API\Shopper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\User;
+use App\Models\Follow;
+use Hash;    
+
 class ProfileController extends Controller
 {
     /**
@@ -12,9 +16,41 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+
+        if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
+        if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
+
+
+        $user = User::where('id',$request->user_id)
+        ->where('role',1)
+        ->where('status',1)
+        ->where('is_deleted',0)
+        ->where('auth_token',$request->token)
+        ->first();
+        
+        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
+         
+         $basicdetails = [
+         'id'=>$user->id,
+         'image'=>$user->image,
+         'name'=>$user->name,
+         'email'=>$user->email,
+         'phone'=>$user->phone,
+         'bio'=>$user->bio,
+         'followers'=>20,
+         'following'=>10
+         ];
+
+         $data['status'] = true;
+         $data['data'] = ['basic_details'=>$basicdetails,'repost'=>[],'user review'=>[]];
+         $data['message'] = "User profile.";
+         return response()->json($data);
+
+
+
     }
 
     /**
@@ -22,9 +58,52 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function follow(Request $request)
     {
         //
+        if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
+        if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
+
+
+        $user = User::where('id',$request->user_id)
+        ->where('role',1)
+        ->where('status',1)
+        ->where('is_deleted',0)
+        ->where('auth_token',$request->token)
+        ->first();
+        
+        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
+
+        if(empty($request->vendor_id)) return response()->json([
+            'status'=>false,
+            'message'=>'Vendor id is required.'
+        ]);
+        
+         $followcheck =Follow::where('user_id',$request->vendor_id)
+                                 ->where('follower_id',$user->id)
+                                 ->first();
+        if(!empty($followcheck)){
+         $followcheck->delete();
+
+         $data['status'] = true;
+         $data['message'] = "Unfollowed successfully.";
+
+        }else{
+        $follow = new Follow;
+        $follow->user_id     = $request->vendor_id;
+        $follow->follower_id = $user->id;  
+        $follow->save();
+
+         $data['status'] = true;
+         $data['message'] = "Followed successfully..";
+
+        }
+
+        return response()->json($data);
+        
+
+
+
     }
 
     /**
@@ -36,6 +115,40 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         //
+        if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
+        if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
+
+
+        $user = User::where('id',$request->user_id)
+        ->where('role',1)
+        ->where('status',1)
+        ->where('is_deleted',0)
+        ->where('auth_token',$request->token)
+        ->first();
+        
+        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
+
+        if(empty($request->name)) return response()->json(['status'=>false,'message'=>'Name.']);
+
+         $user->name = $request->name;
+         if($request->has('image')){
+            $file = $request->image;
+            $filename = time().'.'.$file->getClientOriginalExtension();
+            $file->move('public/images/user',$filename);
+            $user->image               = '/public/images/user/'.$filename;
+         }
+          if($request->has('password')){
+            $user->password = Hash::make($request->password);
+          }
+         $user->bio = $request->bio;
+         $user->save();
+
+        $data['status'] = true;
+        $data['message'] = "Profile updated successfully.";
+        return response()->json($data);
+         
+
+
     }
 
     /**

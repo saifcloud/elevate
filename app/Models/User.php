@@ -48,6 +48,13 @@ class User extends Authenticatable
     public function vendor_subcategory(){
         return $this->hasMany('App\Models\Vendor_subcategory','category_id','category_id');
     }
+
+
+    public function products(){
+        return $this->hasMany('App\Models\Product','vendor_id','id');
+    }
+
+   
     // public function vendor_sub_subcategory(){
     //     return $this->hasMany('App\Models\Subsubcategory','category_id','category_id');
     // }

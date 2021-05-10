@@ -72,7 +72,7 @@ class ProductController extends Controller
                 'price'             =>$value->price,
                 'product_size'      =>$rawSize,
                 'product_color'     =>$rawColor,
-                'reviews'           =>'';
+                'reviews'           =>'',
             ];
         }
 
