@@ -10,6 +10,6 @@ class Order extends Model
     use HasFactory;
 
     public function order_details(){
-    	return $this->hasMany('App\Models\Order','order_id','order_id');
+    	return $this->hasMany('App\Models\Order_details','order_id','order_id');
     }
 }

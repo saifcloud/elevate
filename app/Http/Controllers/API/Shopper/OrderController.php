@@ -61,12 +61,13 @@ class OrderController extends Controller
             $orderdetails->product_id= $value->product_id;
             $orderdetails->size_id   = $value->size_id;
             $orderdetails->color_id  = $value->color_id;
+            $orderdetails->qty       = $value->qty;
             $orderdetails->amount    = $product->price;
             $orderdetails->user_id   = $value->user_id;
             $orderdetails->vendor_id = $value->vendor_id;
             $orderdetails->save();
 
-            $tamount[] = $product->price;
+            $tamount[] = $product->price * $value->qty;
         }
 
         $order = new Order;

@@ -85,18 +85,68 @@ class CartController extends Controller
         // return $cart;
 
         $tracking = [];
-        $order = new Order_details;
+        $order =  Order::where('user_id',$user->id)->where('is_deleted',0)->where('delivery_status',0)->get();
         foreach ($order as $key => $value) {
-            # code...
+            
+             $items = [];
+             foreach ($value->order_details as $key1 => $value1) {
+                $items[] = [
+                           'product_id'=>$value1->product->id,
+                           'image'=>$value1->product->img1,
+                           'title'=>$value1->product->title,
+                           'qty'=>$value1->qty,
+                           'color'=>$value1->color->name,
+                           'size'=>$value1->size->name,
+                           'amount'=>$value1->amount,
+                ];
+             }
+
+             $tracking[] = [
+                        'order_id'=>$value->order_id,
+                        'items'=> $items,
+                        'subtotal'=> $value->total,
+                        'shopping_fee'=> 2,
+                        'VAT'=> 3,
+                        'total'=>$value->total
+             ];
+             
         }
+       // print_r($tracking); die;
 
         $previous = [];
+        $previousRaw =   Order::where('user_id',$user->id)->where('is_deleted',0)->where('delivery_status',0)->get();
+
+        foreach ($previousRaw as $key => $value) {
+            
+             $items1 = [];
+             foreach ($value->order_details as $key1 => $value1) {
+                $items1[] = [
+                           'product_id'=>$value1->product->id,
+                           'image'=>$value1->product->img1,
+                           'title'=>$value1->product->title,
+                           'qty'=>$value1->qty,
+                           'color'=>$value1->color->name,
+                           'size'=>$value1->size->name,
+                           'amount'=>$value1->amount,
+                ];
+             }
+
+             $previous[] = [
+                        'order_id'=>$value->order_id,
+                        'items'=> $items1,
+                        'subtotal'=> $value->total,
+                        'shopping_fee'=> 2,
+                        'VAT'=> 3,
+                        'total'=>$value->total
+             ];
+             
+        }
 
         $data['status'] = true;
         $data['data']   = [
 
             'current'=>$cart,
-            'tracking'=>$trancking,
+            'tracking'=>$tracking,
             'previous'=>$previous
         ];
 
