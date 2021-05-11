@@ -54,6 +54,17 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Product','vendor_id','id');
     }
 
+    public function following(){
+        return $this->hasMany('App\Models\Follow','follower_id','id');
+    }
+
+    public function follower(){
+        return $this->hasMany('App\Models\Follow','user_id','id');
+    }
+
+   
+
+
    
     // public function vendor_sub_subcategory(){
     //     return $this->hasMany('App\Models\Subsubcategory','category_id','category_id');

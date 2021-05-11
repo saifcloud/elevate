@@ -40,8 +40,8 @@ class ProfileController extends Controller
          'email'=>$user->email,
          'phone'=>$user->phone,
          'bio'=>$user->bio,
-         'followers'=>20,
-         'following'=>10
+         'followers'=>$user->follower->count(),,
+         'following'=>$user->following->count()
          ];
 
          $data['status'] = true;
@@ -128,7 +128,7 @@ class ProfileController extends Controller
         
         if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
 
-        if(empty($request->name)) return response()->json(['status'=>false,'message'=>'Name.']);
+        if(empty($request->name)) return response()->json(['status'=>false,'message'=>'Name is required.']);
 
          $user->name = $request->name;
          if($request->has('image')){
@@ -157,9 +157,10 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function store(Request $request)
     {
         //
+
     }
 
     /**

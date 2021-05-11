@@ -102,13 +102,22 @@ Route::group(['prefix'=>'shopper'],function(){
 
 	//add to cart
 	Route::post('add-to-cart',[CartController::class,'store']);
-   
+    
+    //manage quantity
+    Route::post('cart-product-qty',[CartController::class,'manager_qty']);
 
     //cart
 	Route::post('cart',[CartController::class,'index']);
 
+
+	 //remove from card
+	Route::post('remove-cart-product',[CartController::class,'remove_product']);
+
 	//order
 	Route::post('order',[OrderController::class,'index']);
+
+	//review
+	Route::post('review',[ShopperProduct::class,'review']);
 });
 
 

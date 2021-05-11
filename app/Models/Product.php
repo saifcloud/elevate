@@ -18,7 +18,15 @@ class Product extends Model
     public function product_size(){
     	return $this->hasMany('App\Models\Product_size','product_id','id')->with('size');
     }
-     public function category(){
+    public function category(){
         return $this->belongsTo('App\Models\Category','category_id','id');
     }
+
+    public function like(){
+        return $this->hasMany('App\Models\Like','product_id','id');
+    }
+    public function review(){
+        return $this->hasMany('App\Models\Review','product_id','id');
+    }
+
 }

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Like;
+use Carbon\Carbon;
+
 
 class ShopperController extends Controller
 {
@@ -23,7 +25,14 @@ class ShopperController extends Controller
         if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
 
 
-        $user = User::where('id',$request->user_id)->where('role',1)->where('auth_token',$request->token)->first();
+        $user = User::where('id',$request->user_id)
+        ->where('status',1)
+        ->where('is_deleted',0)
+        ->where('role',1)
+        ->where('auth_token',$request->token)
+        ->first();
+
+
         if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);  
 
        // return $vendors =  User::where('role',2)
@@ -39,6 +48,10 @@ class ShopperController extends Controller
 
        $product =[];
        foreach ($productRaw as $key => $value) {
+         
+          $fav = Like::where('product_id',$value->id)
+                              ->where('user_id',$user->id)
+                              ->first();
 
          $rawSize  =[];
             foreach ($value->product_size as $key1 => $value1) {
@@ -61,28 +74,38 @@ class ShopperController extends Controller
                ]; 
             }
 
+            $rawRewiew  =[];
+            foreach ($value->review as $key2 => $value2) {
+               $rawRewiew[] = [
+                'id'     =>$value2->user->id,
+                'name'   =>$value2->user->name,
+                'comment'=>$value2->comment,
+                'date'   =>Carbon::parse($value2->created_at)->format('d F Y ')
+               ];
+            }
+
 
         $product[] = [
-                    'id'=>$value->user->id,
-                    'vendor_image'=>$value->user->image,
-                    'vendor_name'=>$value->user->name,
-                    'category'=>$value->category->en_category,
-                    'category'=>$value->category->ar_category,
-                    'brief'=>"New Collection from ".$value->user->name,
-                    'product_id'=>$value->id,
-                    'image1'=>$value->img1,
-                    'image2'=>($value->img2) ? $value->img2:'',
-                    'image3'=>($value->img3) ? $value->img3:'',
-                    'image4'=>($value->img4) ? $value->img4:'',
-                    'title'=>$value->title,
-                    'description'=>$value->description,
-                    'price'=>$value->price,
-                    'favourited_status'=>1,
-                    'like_count'=>20,
-                    'comments_count'=>10,
+                    'id'                =>$value->user->id,
+                    'vendor_image'      =>$value->user->image,
+                    'vendor_name'       =>$value->user->name,
+                    'category'          =>$value->category->en_category,
+                    'category'          =>$value->category->ar_category,
+                    'brief'             =>"New Collection from ".$value->user->name,
+                    'product_id'        =>$value->id,
+                    'image1'            =>$value->img1,
+                    'image2'            =>($value->img2) ? $value->img2:'',
+                    'image3'            =>($value->img3) ? $value->img3:'',
+                    'image4'            =>($value->img4) ? $value->img4:'',
+                    'title'             =>$value->title,
+                    'description'       =>$value->description,
+                    'price'             =>$value->price,
+                    'liked'             =>(!empty($fav) ? 1:0),
+                    'like_count'        =>$value->like->count(),
+                    'comments_count'    =>count($rawRewiew),
                     'product_size'      =>$rawSize,
                     'product_color'     =>$rawColor,
-                    'reviews'           =>''
+                    'reviews'           =>$rawRewiew
                    
         ];
        }
@@ -127,7 +150,7 @@ class ShopperController extends Controller
                    'id'=>$value->id,
                    'image'=>$value->image,
                    'name'=>$value->name,
-                   'followers'=>20
+                   'followers'=>$value->follower->count(),
         ];
 
        }
@@ -175,12 +198,13 @@ class ShopperController extends Controller
        $basicDetails = [
                          'id'   =>$vendor->id,
                          'image'=>$vendor->image,
+                         'name'=>$vendor->name,
                          'en_category'=>$vendor->category->en_category,
                          'ar_category'=>$vendor->category->ar_category,
                          'bio'=>$vendor->bio,
                          'rating'=>4,
-                         'followers'=>10,
-                         'following'=>20,
+                         'followers'=>$vendor->follower->count(),
+                         'following'=>$vendor->following->count(),
         ];
 
 
@@ -254,7 +278,7 @@ class ShopperController extends Controller
                     'description'=>$value->description,
                     'price'=>$value->price,
                     'favourited_status'=>1,
-                    'like_count'=>20,
+                    'like_count'=>$value->like->count(),
                     'comments_count'=>10,
                     'product_size'      =>$rawSize,
                     'product_color'     =>$rawColor,
