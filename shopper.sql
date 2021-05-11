@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 10, 2021 at 04:43 PM
+-- Generation Time: May 11, 2021 at 01:31 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -72,10 +72,10 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `product_id`, `user_id`, `vendor_id`, `qty`, `size_id`, `color_id`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 22, 9, 11, 1, 1, 1, 1, 0, '2021-05-10 06:35:18', '2021-05-10 06:35:18'),
+(1, 22, 9, 11, 3, 1, 1, 1, 0, '2021-05-10 06:35:18', '2021-05-11 02:14:06'),
 (2, 21, 9, 11, 1, 1, 1, 1, 0, '2021-05-10 06:35:52', '2021-05-10 06:35:52'),
 (3, 22, 9, 16, 1, 1, 1, 1, 0, '2021-05-10 06:35:18', '2021-05-10 06:35:18'),
-(4, 21, 9, 16, 1, 1, 1, 1, 0, '2021-05-10 06:35:52', '2021-05-10 06:35:52');
+(5, 22, 9, 16, 1, 1, 1, 1, 0, '2021-05-10 06:35:18', '2021-05-10 06:35:18');
 
 -- --------------------------------------------------------
 
@@ -232,7 +232,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2021_05_10_110353_create_follows_table', 10),
 (23, '2021_05_10_045456_create_carts_table', 11),
 (24, '2021_05_10_045509_create_orders_table', 12),
-(25, '2021_05_10_135503_create_order_details_table', 12);
+(25, '2021_05_10_135503_create_order_details_table', 12),
+(27, '2021_05_11_055406_create_reviews_table', 13),
+(28, '2021_05_11_072629_create_trackings_table', 14);
 
 -- --------------------------------------------------------
 
@@ -251,6 +253,7 @@ CREATE TABLE `orders` (
   `lat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `long` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>active',
+  `delivery_status` int(11) NOT NULL DEFAULT 0,
   `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -260,8 +263,8 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_id`, `user_id`, `total`, `transaction_id`, `transaction_type`, `shipping_address`, `lat`, `long`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'ORDER9677002555', '9', 500.00, NULL, NULL, 'New Palasia', '22.7244', '75.8839', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56');
+INSERT INTO `orders` (`id`, `order_id`, `user_id`, `total`, `transaction_id`, `transaction_type`, `shipping_address`, `lat`, `long`, `status`, `delivery_status`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 'ORDER9677002555', '9', 500.00, NULL, NULL, 'New Palasia', '22.7244', '75.8839', 1, 0, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56');
 
 -- --------------------------------------------------------
 
@@ -275,6 +278,7 @@ CREATE TABLE `order_details` (
   `product_id` int(11) NOT NULL,
   `size_id` int(11) NOT NULL,
   `color_id` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
   `amount` double(10,2) NOT NULL,
   `user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `vendor_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -288,9 +292,9 @@ CREATE TABLE `order_details` (
 -- Dumping data for table `order_details`
 --
 
-INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `size_id`, `color_id`, `amount`, `user_id`, `vendor_id`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(3, 'ORDER9677002555', 22, 1, 1, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56'),
-(4, 'ORDER9677002555', 21, 1, 1, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56');
+INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `size_id`, `color_id`, `qty`, `amount`, `user_id`, `vendor_id`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(3, 'ORDER9677002555', 22, 1, 1, 2, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56'),
+(4, 'ORDER9677002555', 21, 1, 1, 1, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56');
 
 -- --------------------------------------------------------
 
@@ -422,6 +426,32 @@ INSERT INTO `product_sizes` (`id`, `size_id`, `product_id`, `status`, `is_delete
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `comment` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>active',
+  `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 16, 9, 4, 'This best product', 1, 0, '2021-05-11 00:44:54', '2021-05-11 00:44:54'),
+(2, 16, 9, 4, 'This best product', 1, 0, '2021-05-11 01:43:58', '2021-05-11 01:43:58');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sizes`
 --
 
@@ -515,6 +545,31 @@ INSERT INTO `subsubcategories` (`id`, `image`, `en_subsubcategory`, `ar_subsubca
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `trackings`
+--
+
+CREATE TABLE `trackings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ordered_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `package_date` datetime DEFAULT NULL,
+  `transporting_date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>active',
+  `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `trackings`
+--
+
+INSERT INTO `trackings` (`id`, `order_id`, `ordered_date`, `package_date`, `transporting_date`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 'ORDER9677002555', '2021-05-11 15:13:33', NULL, NULL, 1, 0, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `types`
 --
 
@@ -574,7 +629,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `image`, `name`, `email`, `email_verified_at`, `password`, `phone`, `commercial_reg_num`, `category_id`, `bio`, `otp`, `fcm_token`, `device_token`, `auth_token`, `role`, `status`, `is_deleted`, `remember_token`, `created_at`, `updated_at`) VALUES
-(5, '/public/images/user/1620199389.jpg', 'faiz', 'john@mailinator.com', NULL, '$2y$10$lj3k58VPRsSCjv71FFAcd.m5ZqLt2iDVscKAOxwmLN7ql1n8pfQHi', '9898547525', 'DA25254', 6, 'hi this is bio section', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'qL8c6RQNbTljTZtm058nzfGvnHTFkeRg5Irj', '2', 1, 0, NULL, '2021-05-03 09:17:42', '2021-05-07 00:30:46'),
+(5, '/public/images/user/1620199389.jpg', 'faiz', 'john@mailinator.com', NULL, '$2y$10$lj3k58VPRsSCjv71FFAcd.m5ZqLt2iDVscKAOxwmLN7ql1n8pfQHi', '9898547525', 'DA25254', 6, 'hi this is bio section', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', '5rnSV0wzAyahHYdI12NZb3YoLWnQrbvCN1Ns', '2', 1, 0, NULL, '2021-05-03 09:17:42', '2021-05-11 05:36:29'),
 (9, '/public/images/user/1620643212.jpg', 'Rehat', 'john1@mailinator.com', NULL, '$2y$10$UVJftTgEoHjlFKsCAikq5eNLbJVTlxSYPK/62vL9EP7CKfLAbEitS', '9898547522', '12525544444', 0, 'test test test', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'eJv7BfvCuMNXOksoyWCeeuA6mmAd1YmgBDwX', '1', 1, 0, NULL, '2021-05-03 09:23:35', '2021-05-10 05:10:12'),
 (11, '/public/images/user/default.png', 'joram', 'joram@mailinator.com', NULL, '$2y$10$.kw1ajVaMS0pCJskGVFeDu6jRwWOgCK9OkgbGc7DWy8IfBbA.QFmS', '9898547544', '12525544444', 1, NULL, NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', '0VFcNBiFxz32k9nV84bZj21szHXXrcBTU0Rp', '2', 1, 0, NULL, '2021-05-07 00:27:33', '2021-05-07 06:48:29'),
 (16, '/public/images/user/1620199389.jpg', 'chloe', 'chloe@mailinator.com', NULL, '$2y$10$lj3k58VPRsSCjv71FFAcd.m5ZqLt2iDVscKAOxwmLN7ql1n8pfQHi', '989854755', 'DA25254S', 6, 'i am doe', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'qL8c6RQNbTljTZtm058nzfGvnHTFkeRg5Irj', '2', 1, 0, NULL, '2021-05-03 09:17:42', '2021-05-07 00:30:46');
@@ -697,6 +752,12 @@ ALTER TABLE `product_sizes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sizes`
 --
 ALTER TABLE `sizes`
@@ -712,6 +773,12 @@ ALTER TABLE `subcategories`
 -- Indexes for table `subsubcategories`
 --
 ALTER TABLE `subsubcategories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `trackings`
+--
+ALTER TABLE `trackings`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -747,7 +814,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -771,7 +838,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `follows`
 --
 ALTER TABLE `follows`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `likes`
@@ -783,7 +850,7 @@ ALTER TABLE `likes`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -816,6 +883,12 @@ ALTER TABLE `product_sizes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `sizes`
 --
 ALTER TABLE `sizes`
@@ -832,6 +905,12 @@ ALTER TABLE `subcategories`
 --
 ALTER TABLE `subsubcategories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `trackings`
+--
+ALTER TABLE `trackings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `types`

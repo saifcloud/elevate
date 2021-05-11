@@ -12,6 +12,7 @@ use App\Http\Controllers\API\Vendor\VendorController;
 use App\Http\Controllers\API\Vendor\ProfileController;
 use App\Http\Controllers\API\Vendor\ProductController;
 use App\Http\Controllers\API\Vendor\SubcategoryController;
+use App\Http\Controllers\API\Vendor\OrderController;
 
 
 
@@ -21,7 +22,7 @@ use App\Http\Controllers\API\Shopper\ShopperController;
 use App\Http\Controllers\API\Shopper\ProductController as ShopperProduct;
 use App\Http\Controllers\API\Shopper\ProfileController as ShopperProfile;
 use App\Http\Controllers\API\Shopper\CartController;
-use App\Http\Controllers\API\Shopper\OrderController;
+use App\Http\Controllers\API\Shopper\OrderController  as ShopperOrder; 
 
 
 /*
@@ -63,10 +64,13 @@ Route::group(['prefix'=>'vendor'],function(){
 
 	Route::post('add-product',[ProductController::class,'store']);
 
+	Route::post('order',[OrderController::class,'index']);
+
+
 });
 
 
-
+  
 Route::group(['prefix'=>'shopper'],function(){
     
     //home
@@ -114,7 +118,7 @@ Route::group(['prefix'=>'shopper'],function(){
 	Route::post('remove-cart-product',[CartController::class,'remove_product']);
 
 	//order
-	Route::post('order',[OrderController::class,'index']);
+	Route::post('order',[ShopperOrder::class,'index']);
 
 	//review
 	Route::post('review',[ShopperProduct::class,'review']);

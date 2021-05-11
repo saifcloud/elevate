@@ -5,11 +5,11 @@ namespace App\Http\Controllers\API\Vendor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use Hash;
-
+use App\Models\Order;
+use App\Models\Order_details;
 use App\Models\User;
 
-class ProfileController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,6 +19,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         //
+          //
         if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
         if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
 
@@ -32,22 +33,7 @@ class ProfileController extends Controller
 
 
 
-        
-        $profile_details = [
-        'image'=> $user->image,
-        'name' => $user->name,
-        'email'=> $user->email,
-        'phone'=> $user->phone,
-        'bio'  => $user->bio,
-        'en_category'=> $user->category->en_category,
-        'ar_category'=> $user->category->ar_category,
-        'commercial_reg_num'=>$user->commercial_reg_num
-        ];
 
-        $data['status'] = true;
-        $data['data']   = ['profile_details'=>$profile_details];
-        $data['message']= "Profile details";
-        return response()->json($data);
 
     }
 
@@ -70,48 +56,6 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         //
-
-        if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
-        if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
-
-        $user = User::where('id',$request->user_id)->where('auth_token',$request->token)->first();
-        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
-
-
-        if(empty($request->name)) return response()->json(['status'=>false,'message'=>'Name is required.']);
-       
-       // if(empty($request->password)) return response()->json(['status'=>false,'message'=>'Password is required.']);
-
-      
-       if(empty($request->commercial_reg_num)) return response()->json(['status'=>false,'message'=>'Commercial registration number is required.']);
-
-       $user->name = $request->name;
-       $user->commercial_reg_num = $request->commercial_reg_num;
-       $user->bio = $request->bio;
-       if(!empty($request->password)){
-         $user->password = Hash::make($request->password);
-       }
-       if($request->has('image')){
-        $file = $request->image;
-        $filename = time().'.'.$file->getClientOriginalExtension();
-        $file->move('public/images/user',$filename);
-        $user->image = '/public/images/user/'.$filename;
-       }
-       $user->save();
-
-       return response()->json(['status'=>true,'message'=>'Profile updated successfully.']);
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     /**
