@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 11, 2021 at 01:31 PM
+-- Generation Time: May 13, 2021 at 09:45 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -246,13 +246,14 @@ CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vendor_id` int(11) NOT NULL,
   `total` double(10,2) NOT NULL,
   `transaction_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `transaction_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `shipping_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `long` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>active',
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>pending,2=>completed,3=>canceled',
   `delivery_status` int(11) NOT NULL DEFAULT 0,
   `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -263,8 +264,11 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_id`, `user_id`, `total`, `transaction_id`, `transaction_type`, `shipping_address`, `lat`, `long`, `status`, `delivery_status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'ORDER9677002555', '9', 500.00, NULL, NULL, 'New Palasia', '22.7244', '75.8839', 1, 0, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56');
+INSERT INTO `orders` (`id`, `order_id`, `user_id`, `vendor_id`, `total`, `transaction_id`, `transaction_type`, `shipping_address`, `lat`, `long`, `status`, `delivery_status`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 'ORDER9677002555', '9', 11, 500.00, NULL, NULL, 'New Palasia', '22.7244', '75.8839', 1, 0, 0, '2021-04-15 09:03:56', '2021-05-13 00:18:56'),
+(2, 'ORDER9677002556', '9', 11, 250.00, NULL, NULL, 'Vishnu Puri Colony', '22.6909', '75.8599', 1, 0, 0, '2021-05-01 06:52:34', '2021-05-10 09:03:56'),
+(3, 'ORDER9677002557', '9', 11, 500.00, NULL, NULL, 'New Palasia', '22.7244', '75.8839', 1, 0, 0, '2021-05-13 07:22:13', '2021-05-13 00:18:56'),
+(4, 'ORDER96770025523', '9', 11, 250.00, NULL, NULL, 'Vishnu Puri Colony', '22.6909', '75.8599', 1, 0, 0, '2021-05-13 09:03:56', '2021-05-10 09:03:56');
 
 -- --------------------------------------------------------
 
@@ -294,7 +298,8 @@ CREATE TABLE `order_details` (
 
 INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `size_id`, `color_id`, `qty`, `amount`, `user_id`, `vendor_id`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (3, 'ORDER9677002555', 22, 1, 1, 2, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56'),
-(4, 'ORDER9677002555', 21, 1, 1, 1, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56');
+(4, 'ORDER9677002555', 21, 1, 1, 1, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56'),
+(5, 'ORDER9677002556', 22, 1, 1, 2, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56');
 
 -- --------------------------------------------------------
 
@@ -631,7 +636,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `image`, `name`, `email`, `email_verified_at`, `password`, `phone`, `commercial_reg_num`, `category_id`, `bio`, `otp`, `fcm_token`, `device_token`, `auth_token`, `role`, `status`, `is_deleted`, `remember_token`, `created_at`, `updated_at`) VALUES
 (5, '/public/images/user/1620199389.jpg', 'faiz', 'john@mailinator.com', NULL, '$2y$10$lj3k58VPRsSCjv71FFAcd.m5ZqLt2iDVscKAOxwmLN7ql1n8pfQHi', '9898547525', 'DA25254', 6, 'hi this is bio section', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', '5rnSV0wzAyahHYdI12NZb3YoLWnQrbvCN1Ns', '2', 1, 0, NULL, '2021-05-03 09:17:42', '2021-05-11 05:36:29'),
 (9, '/public/images/user/1620643212.jpg', 'Rehat', 'john1@mailinator.com', NULL, '$2y$10$UVJftTgEoHjlFKsCAikq5eNLbJVTlxSYPK/62vL9EP7CKfLAbEitS', '9898547522', '12525544444', 0, 'test test test', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'eJv7BfvCuMNXOksoyWCeeuA6mmAd1YmgBDwX', '1', 1, 0, NULL, '2021-05-03 09:23:35', '2021-05-10 05:10:12'),
-(11, '/public/images/user/default.png', 'joram', 'joram@mailinator.com', NULL, '$2y$10$.kw1ajVaMS0pCJskGVFeDu6jRwWOgCK9OkgbGc7DWy8IfBbA.QFmS', '9898547544', '12525544444', 1, NULL, NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', '0VFcNBiFxz32k9nV84bZj21szHXXrcBTU0Rp', '2', 1, 0, NULL, '2021-05-07 00:27:33', '2021-05-07 06:48:29'),
+(11, '/public/images/user/default.png', 'joram', 'joram@mailinator.com', NULL, '$2y$10$.kw1ajVaMS0pCJskGVFeDu6jRwWOgCK9OkgbGc7DWy8IfBbA.QFmS', '9898547544', '12525544444', 1, NULL, NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'PsmgS72SyFPf3LzZiI2KqC2zuxfi5H4mMMVW', '2', 1, 0, NULL, '2021-05-07 00:27:33', '2021-05-12 23:19:36'),
 (16, '/public/images/user/1620199389.jpg', 'chloe', 'chloe@mailinator.com', NULL, '$2y$10$lj3k58VPRsSCjv71FFAcd.m5ZqLt2iDVscKAOxwmLN7ql1n8pfQHi', '989854755', 'DA25254S', 6, 'i am doe', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'qL8c6RQNbTljTZtm058nzfGvnHTFkeRg5Irj', '2', 1, 0, NULL, '2021-05-03 09:17:42', '2021-05-07 00:30:46');
 
 -- --------------------------------------------------------
@@ -856,13 +861,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `products`

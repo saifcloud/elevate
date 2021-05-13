@@ -97,7 +97,7 @@ class CartController extends Controller
                            'qty'=>$value1->qty,
                            'color'=>$value1->color->name,
                            'size'=>$value1->size->name,
-                           'amount'=>$value1->amount,
+                           'amount'=>$value1->amount *$value1->qty,
                 ];
              }
 
@@ -127,7 +127,7 @@ class CartController extends Controller
                            'qty'=>$value1->qty,
                            'color'=>$value1->color->name,
                            'size'=>$value1->size->name,
-                           'amount'=>$value1->amount,
+                           'amount'=>$value1->amount * $value1->qty,
                 ];
              }
 

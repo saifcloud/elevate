@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('order_id');
             $table->string('user_id');
-            // $table->string('vendor_id');
+            $table->string('vendor_id');
             $table->double('total',10,2);
             $table->string('transaction_id')->nullable();
             $table->string('transaction_type')->nullable();

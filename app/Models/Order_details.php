@@ -18,4 +18,8 @@ class Order_details extends Model
     public function size(){
     	return $this->hasOne('App\Models\Size','id','size_id');
     }
+
+    public function user(){
+        return $this->hasOne('App\Models\User','id','user_id');
+    }
 }

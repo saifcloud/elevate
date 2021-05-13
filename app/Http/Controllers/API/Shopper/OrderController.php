@@ -73,6 +73,7 @@ class OrderController extends Controller
         $order = new Order;
         $order->order_id = $order_id;
         $order->user_id  = $user->id;
+        $order->vendor_id = $request->vendor_id;
         $order->total    = array_sum($tamount);
         $order->shipping_address = $request->location;
         $order->lat      = $request->lat;

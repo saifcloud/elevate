@@ -66,6 +66,10 @@ Route::group(['prefix'=>'vendor'],function(){
 
 	Route::post('order',[OrderController::class,'index']);
 
+	Route::post('change-order-status',[OrderController::class,'store']);
+
+	Route::post('sale',[OrderController::class,'sale']);
+
 
 });
 

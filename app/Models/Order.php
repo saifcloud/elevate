@@ -12,4 +12,7 @@ class Order extends Model
     public function order_details(){
     	return $this->hasMany('App\Models\Order_details','order_id','order_id');
     }
+     public function user(){
+        return $this->hasOne('App\Models\User','id','user_id');
+    }
 }
