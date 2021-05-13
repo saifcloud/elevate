@@ -62,6 +62,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Follow','user_id','id');
     }
 
+     public function reviews(){
+        return $this->hasMany('App\Models\Review','vendor_id','id');
+    }
+
+    //  public function rating(){
+    //     return $this->review->avg('rating');
+    // }
+
    
 
 

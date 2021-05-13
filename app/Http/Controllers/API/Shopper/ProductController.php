@@ -237,7 +237,8 @@ class ProductController extends Controller
             $rawRewiew  =[];
             foreach ($value->review as $key2 => $value2) {
                $rawRewiew[] = [
-                'id'=>$value2->user->id,
+                'id'=>$value2->id,
+                'user_id'=>$value2->user->id,
                 'name'=>$value2->user->name,
                 'comment'=>$value2->comment,
                 'date'=>Carbon::parse($value2->created_at)->format('d F Y ')
@@ -315,7 +316,7 @@ class ProductController extends Controller
 
         $review = new Review;
         $review->product_id = $product->id;
-        // $review->vendor_id  = $product->vendor_id;
+        $review->vendor_id  = $product->vendor_id;
         $review->user_id    = $user->id;
         $review->rating     = $request->rating;
         $review->comment    = $request->comment;

@@ -8,6 +8,10 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Product_size;
 use App\Models\Product_color;
+use App\Models\Review;
+
+
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -110,7 +114,7 @@ class ProductController extends Controller
         if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
         if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
 
-        $user = User::where('id',$request->user_id)->where('auth_token',$request->token)->first();
+        $user = User::where('id',$request->user_id)->where('auth_token',$request->token)->where('role',2)->first();
         if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
 
           
@@ -223,9 +227,98 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function product_details(Request $request)
     {
         //
+        if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
+        if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
+
+        $user = User::where('id',$request->user_id)->where('auth_token',$request->token)->where('role',2)->first();
+        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
+ 
+          $product = Product::where('id',$request->product_id)
+                                                          ->where('vendor_id',$user->id)
+                                                          ->where('status',1)
+                                                          ->where('is_deleted',0)
+                                                          ->first();
+
+
+        $productRaw = [];    
+       
+
+            $rawSize  =[];
+            foreach ($product->product_size as $key1 => $value1) {
+               $rawSize[] = [
+                'id'=>$value1->size->id,
+                'name'=>$value1->size->name
+               ];
+            }
+
+
+            $rawColor = [];
+            foreach ($product->product_color as $key2 => $value2) {
+               $rawColor[] = [
+                'id'=>$value2->color->id,
+                'name'=>$value2->color->name,
+                'img1'=>$value2->img1,
+                'img2'=>($value2->img2) ? $value2->img2:'',
+                'img3'=>($value2->img3) ? $value2->img3:'',
+                'img4'=>($value2->img4) ? $value2->img4:'',
+               ]; 
+            }
+
+
+            $rawReview = [];
+            foreach ($product->review as $key3 => $value3) {
+
+                $rvimg = [
+
+                ];
+               $rawReview[] = [
+                'id'=>$value3->id,
+                'user_id'  =>$value3->user->id,
+                'image'  =>$value3->user->image,
+                'name'   =>$value3->user->name,
+                'comment'=>$value3->comment,
+                'review_images' =>[
+                            $value3->img1,
+                            $value3->img2,
+                            $value3->img3,
+                            $value3->img4,
+                ],
+                'date'=>Carbon::parse($value3->created_at)->format('d F Y ')
+                
+               ]; 
+            }
+
+            $productRaw = [
+                'id'                =>$product->id, 
+                'title'             =>$product->title, 
+                'description'       =>$product->description, 
+                'img1'              =>$product->img1,
+                'img2'              =>($product->img2) ? $product->img2:'',
+                'img3'              =>($product->img3) ? $product->img3:'',
+                'img4'              =>($product->img4) ? $product->img4:'', 
+                'sub_subcategory_id'=>$product->sub_subcategory_id, 
+                'subcategory_id'    =>$product->subcategory_id, 
+                'category_id'       =>$product->category_id,
+                'price'             =>$product->price,
+                'product_size'      =>$rawSize,
+                'product_color'     =>$rawColor,
+                'reviews'           =>$rawReview,
+            ];
+        
+
+
+
+
+       $data['status']  = true;
+       $data['data']    = ['product'=>$productRaw];
+       $data['message'] = 'Single product details.';
+       return response()->json($data);
+
+
+
     }
 
     /**
@@ -234,9 +327,58 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function get_reviews(Request $request)
     {
         //
+        if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
+        if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
+
+        $user = User::where('id',$request->user_id)
+                                            ->where('auth_token',$request->token)
+                                            ->where('role',2)
+                                            ->where('is_deleted',0)
+                                            ->first();
+
+
+        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
+
+        if(empty($request->product_id)) return response()->json(['status'=>false,'message'=>'Product id is required.']);
+        $skip = (empty($request->skip)) ? 0:$request->skip;
+        
+        $reviewRaw = Review::where('product_id',$request->product_id)
+        ->where('is_deleted',0)
+        ->skip($skip)
+        ->limit(2)
+        ->get();
+        $review = [];
+        foreach ($reviewRaw as $key => $value) {
+            $review[] = [
+                'id'=>$value->id,
+                'user_id'  =>$value->user->id,
+                'image'  =>$value->user->image,
+                'name'   =>$value->user->name,
+                'comment'=>$value->comment,
+                'review_images' =>[
+                            $value->img1,
+                            $value->img2,
+                            $value->img3,
+                            $value->img4,
+                ],
+                'date'=>Carbon::parse($value->created_at)->format('d F Y ')
+            ];
+        }
+
+        
+       
+       $data['status']  = true;
+       $data['data']    = ['review'=>$review];
+       $data['message'] = 'Reviews list.';
+       return response()->json($data);
+
+
+
+
+
     }
 
     /**

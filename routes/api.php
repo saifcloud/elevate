@@ -48,6 +48,10 @@ Route::group(['prefix'=>'vendor'],function(){
 
 	Route::post('home',[VendorController::class,'index']);
 
+    Route::post('product-details',[ProductController::class,'product_details']);
+
+    Route::post('reviews',[ProductController::class,'get_reviews']);
+
 	Route::post('subcategory-selected-products',[ProductController::class,'index']);
 
 

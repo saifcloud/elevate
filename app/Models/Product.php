@@ -26,6 +26,9 @@ class Product extends Model
         return $this->hasMany('App\Models\Like','product_id','id');
     }
     public function review(){
+        return $this->hasMany('App\Models\Review','product_id','id')->limit(2);
+    }
+    public function rating(){
         return $this->hasMany('App\Models\Review','product_id','id');
     }
 

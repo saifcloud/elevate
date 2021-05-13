@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 13, 2021 at 09:45 AM
+-- Generation Time: May 13, 2021 at 03:28 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -362,10 +362,10 @@ CREATE TABLE `product_colors` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `color_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `img1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `img2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `img3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `img4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `img1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `img2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `img3` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `img4` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>active',
   `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -438,8 +438,13 @@ CREATE TABLE `reviews` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
   `rating` int(11) NOT NULL,
   `comment` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `img1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `img2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `img3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `img4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>active',
   `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -450,9 +455,15 @@ CREATE TABLE `reviews` (
 -- Dumping data for table `reviews`
 --
 
-INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 16, 9, 4, 'This best product', 1, 0, '2021-05-11 00:44:54', '2021-05-11 00:44:54'),
-(2, 16, 9, 4, 'This best product', 1, 0, '2021-05-11 01:43:58', '2021-05-11 01:43:58');
+INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `vendor_id`, `rating`, `comment`, `img1`, `img2`, `img3`, `img4`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 16, 9, 11, 4, 'This best product', '0', '0', '0', '0', 1, 0, '2021-05-11 00:44:54', '2021-05-11 00:44:54'),
+(2, 16, 9, 11, 4, 'This best product', '0', '0', '0', '0', 1, 0, '2021-05-11 01:43:58', '2021-05-11 01:43:58'),
+(3, 16, 9, 11, 4, 'This best product', '0', '0', '0', '0', 1, 0, '2021-05-11 00:44:54', '2021-05-11 00:44:54'),
+(4, 16, 9, 11, 3, 'This best product', '0', '0', '0', '0', 1, 0, '2021-05-11 01:43:58', '2021-05-11 01:43:58'),
+(5, 16, 9, 11, 4, 'This best product', '0', '0', '0', '0', 1, 0, '2021-05-11 00:44:54', '2021-05-11 00:44:54'),
+(6, 16, 9, 11, 2, 'This best product', '0', '0', '0', '0', 1, 0, '2021-05-11 01:43:58', '2021-05-11 01:43:58'),
+(7, 16, 9, 11, 4, 'This best product', '0', '0', '0', '0', 1, 0, '2021-05-11 00:44:54', '2021-05-11 00:44:54'),
+(8, 16, 9, 11, 1, 'This best product', '0', '0', '0', '0', 1, 0, '2021-05-11 01:43:58', '2021-05-11 01:43:58');
 
 -- --------------------------------------------------------
 
@@ -891,7 +902,7 @@ ALTER TABLE `product_sizes`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `sizes`

@@ -34,14 +34,15 @@ class VendorController extends Controller
        if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
         
        $basicinfo = [
+        'id'=>$user->id,
         'image'=>$user->image,
         'name'=>$user->name,
         'en_category'=>$user->category->en_category,
         'ar_category'=>$user->category->ar_category,
-        'bio'=>$user->bio,
-        'followers'=>200,
-        'following'=>250,
-        'rating'=>4
+        'bio'=>($user->bio) ? $user->bio:"",
+        'followers'=>$user->follower->count(),
+        'following'=>$user->following->count(),
+        'rating'=>round($user->reviews->avg('rating'))
        ];
        
        $categoryRaw = [];
@@ -51,17 +52,21 @@ class VendorController extends Controller
             'id' =>$value->subcategory->id,
             'en_subcategory' =>$value->subcategory->en_subcategory,
             'ar_subcategory' =>$value->subcategory->ar_subcategory,
+            'status' =>(isset($request->subcategory_id) && ($value->subcategory->id == $request->subcategory_id) ? 1:0),
             
         ];
        }
         
-        $subcategory_id = $user->vendor_subcategory->first()->subcategory->id;
-        $product        = Product::where('subcategory_id',$subcategory_id)
-                                                        ->where('vendor_id',$user->id)
+        // $subcategory_id = $user->vendor_subcategory->first()->subcategory->id;
+        $productRawdata = Product::where('vendor_id',$user->id)
                                                         ->where('status',1)
-                                                        ->where('is_deleted',0)
-                                                        // ->limit(18)
-                                                        ->get(); 
+                                                        ->where('is_deleted',0);
+        if(!empty($request->subcategory_id)){
+            $productRawdata = $productRawdata->where('subcategory_id',$request->subcategory_id);
+        }
+                                                        
+        $product = $productRawdata->get(); 
+
         $productRaw = [];    
         foreach ($product as $key => $value) {
 
@@ -80,9 +85,9 @@ class VendorController extends Controller
                 'id'=>$value2->color->id,
                 'name'=>$value2->color->name,
                 'img1'=>$value2->img1,
-                'img2'=>($value2->img2) ? $value2->img2:'',
-                'img3'=>($value2->img3) ? $value2->img3:'',
-                'img4'=>($value2->img4) ? $value2->img4:'',
+                'img2'=>$value2->img2,
+                'img3'=>$value2->img3,
+                'img4'=>$value2->img4,
                ]; 
             }
 
@@ -105,7 +110,7 @@ class VendorController extends Controller
         }
 
        $data['status']  = true;
-       $data['data']    = ['basicinfo'=>$basicinfo,'subcategory'=>$categoryRaw,'product'=>$productRaw,'selected_subcategory'=>$subcategory_id];
+       $data['data']    = ['basicinfo'=>$basicinfo,'subcategory'=>$categoryRaw,'product'=>$productRaw];
        $data['message'] = 'Home page data.';
        return response()->json($data);
 

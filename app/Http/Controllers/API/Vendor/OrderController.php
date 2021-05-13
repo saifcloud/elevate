@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Order_details;
 use App\Models\User;
+use App\Models\Product;
 
 
 use Carbon\Carbon;
@@ -25,6 +26,7 @@ class OrderController extends Controller
         //
           //
         if(empty($request->token)) return response()->json(['status'=>false,'message'=>'Authorization token is required.']);
+
         if(empty($request->user_id)) return response()->json(['status'=>false,'message'=>'User is required.']);
 
         $user = User::where('id',$request->user_id)
@@ -72,7 +74,7 @@ class OrderController extends Controller
 
 
             if($value->status==1){
-              $orderst = "CURRENT";
+                $orderst = "CURRENT";
             }
             if($value->status==2){
                 $orderst = "COMPLETED";
@@ -202,7 +204,8 @@ class OrderController extends Controller
                                         ->first();
                                         
         if(empty($user)) return response()->json(['status'=>false,'message'=>'Unauthorize user.']);
-
+       
+        
 
         $saleTotal=  Order::where('vendor_id',$user->id)
                                                     ->where('status','!=',3)
@@ -213,33 +216,75 @@ class OrderController extends Controller
         // }
 
         if($request->filter_type =="WEEK"){
+
           $saleTotal = $saleTotal->select(DB::raw("(SUM(total)) as amount"),DB::raw("DAYNAME(created_at) as name"))->whereBetween('created_at',
             [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()]
           )->groupBy('name');
 
+          $stotal=  Order::where('vendor_id',$user->id)->whereBetween('created_at',
+                                                        [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()]
+                                                      )
+                                                    ->where('status','!=',3)
+                                                    ->where('is_deleted',0)
+                                                    ->sum('total');
+
+
         }else if($request->filter_type=="MONTH"){
+
+
           $saleTotal = $saleTotal->select(DB::raw("(SUM(total)) as amount"),DB::raw("DATE_FORMAT(created_at,'%d-%b-%Y') as name"))
           ->whereMonth('created_at',date('m'))
           ->whereYear('created_at',date('Y'))
           ->groupBy('name');
 
+
+          $stotal=  Order::where('vendor_id',$user->id)->whereMonth('created_at',date('m'))
+                                                    ->whereYear('created_at',date('Y'))
+                                                    ->where('status','!=',3)
+                                                    ->where('is_deleted',0)
+                                                    ->sum('total');
+
+
+
         }else if($request->filter_type=="YEAR"){
+
           $saleTotal = $saleTotal->select(DB::raw("(SUM(total)) as amount"),DB::raw("MONTHNAME(created_at) as name"))
           ->whereYear('created_at', date('Y'))
           ->groupBy('name');
 
+          $stotal=  Order::where('vendor_id',$user->id)->whereYear('created_at',date('Y'))
+                                                    ->where('status','!=',3)
+                                                    ->where('is_deleted',0)
+                                                    ->sum('total');
+
+
         }else{
             $saleTotal = $saleTotal->select(DB::raw("total as amount"),DB::raw("DATE_FORMAT(created_at,'%h:%i %p') as name"))->whereDate('created_at',Carbon::today());
+
+            $stotal=  Order::where('vendor_id',$user->id)->whereDate('created_at',Carbon::today())
+                                                    ->where('status','!=',3)
+                                                    ->where('is_deleted',0)
+                                                    ->sum('total');
         }
 
-        return $saleTotal->get();
+         $total_sale_data = $saleTotal->get();
 
-        $total_sale   =[];
-        $total_amount =[];
+         $total_sale = ['total'=>$stotal,'graph_data'=>$total_sale_data];
+
+       
+
+
+
+
+        $productRaw = Product::where('vendor_id',$user->id)->where('status',1)->where('is_deleted',0)->get();
+        $total_amount =['total'=>$stotal];
 
 
         $data['status']  = true;
-        $data['data']    = ['total_sale'=>$total_sale,'total_amount'=>$total_amount];
+        $data['data']    = [
+            'total_sale'=>$total_sale,
+            'total_amount'=>$total_amount
+        ];
         $data['message'] = "Sale"; 
         
         return response()->json($data); 
