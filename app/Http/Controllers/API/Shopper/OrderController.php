@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Order_details;
 use App\Models\Product;
+use App\Models\Tracking;
 
 class OrderController extends Controller
 {
@@ -68,6 +69,12 @@ class OrderController extends Controller
             $orderdetails->save();
 
             $tamount[] = $product->price * $value->qty;
+
+             Cart::where('vendor_id',$request->vendor_id)
+                                                    ->where('user_id',$user->id)
+                                                    ->where('product_id',$value->product_id)
+                                                    ->where('is_deleted',0)
+                                                    ->update(['is_deleted'=>1]);
         }
 
         $order = new Order;
@@ -80,19 +87,12 @@ class OrderController extends Controller
         $order->long     = $request->long;
         $order->save();
 
+       
 
         $data['status'] = true;
         $data['data'] = ['order_id'=>$order_id];
         $data['message'] = "Order place successfully.";
         return response()->json($data);
-        
-
-
-
-
-       
-
-
 
     }
 

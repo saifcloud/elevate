@@ -100,7 +100,7 @@ class VendorController extends Controller
                 'img2'              =>($value->img2) ? $value->img2:'',
                 'img3'              =>($value->img3) ? $value->img3:'',
                 'img4'              =>($value->img4) ? $value->img4:'', 
-                'sub_subcategory_id'=>$value->sub_subcategory_id, 
+                'sub_subcategory_id'=>($value->sub_subcategory_id) ? $value->sub_subcategory_id:'', 
                 'subcategory_id'    =>$value->subcategory_id, 
                 'category_id'       =>$value->category_id,
                 'price'             =>$value->price,
@@ -109,8 +109,12 @@ class VendorController extends Controller
             ];
         }
 
+
        $data['status']  = true;
-       $data['data']    = ['basicinfo'=>$basicinfo,'subcategory'=>$categoryRaw,'product'=>$productRaw];
+       $data['data']    = [
+        'basicinfo'=>$basicinfo,
+        'subcategory'=>$categoryRaw,
+        'product'=>$productRaw];
        $data['message'] = 'Home page data.';
        return response()->json($data);
 

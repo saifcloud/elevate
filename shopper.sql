@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 13, 2021 at 03:28 PM
+-- Generation Time: May 17, 2021 at 11:04 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -59,8 +59,8 @@ CREATE TABLE `carts` (
   `user_id` int(11) NOT NULL,
   `vendor_id` int(11) NOT NULL,
   `qty` int(11) NOT NULL,
-  `size_id` int(11) NOT NULL,
-  `color_id` int(11) NOT NULL,
+  `size_id` int(11) DEFAULT NULL,
+  `color_id` int(11) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>active',
   `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -72,10 +72,7 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `product_id`, `user_id`, `vendor_id`, `qty`, `size_id`, `color_id`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 22, 9, 11, 3, 1, 1, 1, 0, '2021-05-10 06:35:18', '2021-05-11 02:14:06'),
-(2, 21, 9, 11, 1, 1, 1, 1, 0, '2021-05-10 06:35:52', '2021-05-10 06:35:52'),
-(3, 22, 9, 16, 1, 1, 1, 1, 0, '2021-05-10 06:35:18', '2021-05-10 06:35:18'),
-(5, 22, 9, 16, 1, 1, 1, 1, 0, '2021-05-10 06:35:18', '2021-05-10 06:35:18');
+(6, 28, 18, 17, 3, NULL, NULL, 1, 1, '2021-05-17 01:33:23', '2021-05-17 01:50:08');
 
 -- --------------------------------------------------------
 
@@ -131,7 +128,14 @@ CREATE TABLE `colors` (
 
 INSERT INTO `colors` (`id`, `name`, `type`, `subsubcategory_id`, `subcategory_id`, `category_id`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (1, '#5b5757', NULL, 5, 2, 1, 1, 0, '2021-05-07 02:07:17', '2021-05-07 02:14:24'),
-(2, '#ba7373', NULL, 5, 2, 1, 1, 0, '2021-05-07 03:30:39', '2021-05-07 03:30:39');
+(2, '#ba7373', NULL, 5, 2, 1, 1, 0, '2021-05-07 03:30:39', '2021-05-07 03:30:39'),
+(3, '#000000', NULL, 7, 1, 1, 1, 0, '2021-05-17 00:41:04', '2021-05-17 00:41:04'),
+(4, '#cf0707', NULL, 7, 1, 1, 1, 0, '2021-05-17 00:43:04', '2021-05-17 00:43:04'),
+(5, '#617920', NULL, 7, 1, 1, 1, 0, '2021-05-17 00:43:04', '2021-05-17 00:43:04'),
+(6, '#170cb0', NULL, 7, 1, 1, 1, 0, '2021-05-17 00:43:04', '2021-05-17 00:43:04'),
+(7, '#0eaf3e', NULL, 7, 1, 1, 1, 0, '2021-05-17 00:43:04', '2021-05-17 00:43:04'),
+(8, '#e55252', NULL, 7, 1, 1, 1, 0, '2021-05-17 00:43:04', '2021-05-17 00:43:04'),
+(9, '#cc30cf', NULL, 7, 1, 1, 1, 0, '2021-05-17 00:43:04', '2021-05-17 00:43:04');
 
 -- --------------------------------------------------------
 
@@ -195,7 +199,8 @@ CREATE TABLE `likes` (
 
 INSERT INTO `likes` (`id`, `product_id`, `vendor_id`, `user_id`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (3, 16, 11, 9, 1, 0, '2021-05-10 04:13:15', '2021-05-10 04:13:15'),
-(4, 17, 11, 9, 1, 0, '2021-05-10 04:25:05', '2021-05-10 04:25:05');
+(4, 17, 11, 9, 1, 0, '2021-05-10 04:25:05', '2021-05-10 04:25:05'),
+(5, 28, 17, 18, 1, 0, '2021-05-17 01:24:40', '2021-05-17 01:24:40');
 
 -- --------------------------------------------------------
 
@@ -255,6 +260,9 @@ CREATE TABLE `orders` (
   `long` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>pending,2=>completed,3=>canceled',
   `delivery_status` int(11) NOT NULL DEFAULT 0,
+  `payment_status` int(11) NOT NULL DEFAULT 0 COMMENT '0=>pending,1=>successfully',
+  `package_date` timestamp NULL DEFAULT NULL,
+  `transporting_date` timestamp NULL DEFAULT NULL,
   `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -264,11 +272,8 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_id`, `user_id`, `vendor_id`, `total`, `transaction_id`, `transaction_type`, `shipping_address`, `lat`, `long`, `status`, `delivery_status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'ORDER9677002555', '9', 11, 500.00, NULL, NULL, 'New Palasia', '22.7244', '75.8839', 1, 0, 0, '2021-04-15 09:03:56', '2021-05-13 00:18:56'),
-(2, 'ORDER9677002556', '9', 11, 250.00, NULL, NULL, 'Vishnu Puri Colony', '22.6909', '75.8599', 1, 0, 0, '2021-05-01 06:52:34', '2021-05-10 09:03:56'),
-(3, 'ORDER9677002557', '9', 11, 500.00, NULL, NULL, 'New Palasia', '22.7244', '75.8839', 1, 0, 0, '2021-05-13 07:22:13', '2021-05-13 00:18:56'),
-(4, 'ORDER96770025523', '9', 11, 250.00, NULL, NULL, 'Vishnu Puri Colony', '22.6909', '75.8599', 1, 0, 0, '2021-05-13 09:03:56', '2021-05-10 09:03:56');
+INSERT INTO `orders` (`id`, `order_id`, `user_id`, `vendor_id`, `total`, `transaction_id`, `transaction_type`, `shipping_address`, `lat`, `long`, `status`, `delivery_status`, `payment_status`, `package_date`, `transporting_date`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(5, 'ORDER181401511999', '18', 17, 60.00, NULL, NULL, 'Khajrana indore', '22.7355', '75.9074', 1, 0, 0, NULL, NULL, 0, '2021-05-17 01:50:08', '2021-05-17 01:50:08');
 
 -- --------------------------------------------------------
 
@@ -280,8 +285,8 @@ CREATE TABLE `order_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_id` int(11) NOT NULL,
-  `size_id` int(11) NOT NULL,
-  `color_id` int(11) NOT NULL,
+  `size_id` int(11) DEFAULT NULL,
+  `color_id` int(11) DEFAULT NULL,
   `qty` int(11) NOT NULL,
   `amount` double(10,2) NOT NULL,
   `user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -299,7 +304,8 @@ CREATE TABLE `order_details` (
 INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `size_id`, `color_id`, `qty`, `amount`, `user_id`, `vendor_id`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (3, 'ORDER9677002555', 22, 1, 1, 2, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56'),
 (4, 'ORDER9677002555', 21, 1, 1, 1, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56'),
-(5, 'ORDER9677002556', 22, 1, 1, 2, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56');
+(5, 'ORDER9677002556', 22, 1, 1, 2, 250.00, '9', '11', 1, 0, '2021-05-10 09:03:56', '2021-05-10 09:03:56'),
+(6, 'ORDER181401511999', 28, NULL, NULL, 3, 20.00, '18', '17', 1, 0, '2021-05-17 01:50:08', '2021-05-17 01:50:08');
 
 -- --------------------------------------------------------
 
@@ -329,11 +335,11 @@ CREATE TABLE `products` (
   `img4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `vendor_id` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `type_id` int(11) DEFAULT NULL,
-  `sub_subcategory_id` int(11) NOT NULL,
+  `sub_subcategory_id` int(11) DEFAULT NULL,
   `subcategory_id` int(11) NOT NULL DEFAULT 1,
   `category_id` int(11) NOT NULL,
   `price` double(10,2) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT 0 COMMENT '1=>active',
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>active',
   `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -350,7 +356,10 @@ INSERT INTO `products` (`id`, `title`, `description`, `img1`, `img2`, `img3`, `i
 (19, 'Nacker', 'This is one of puma best brand shoes', '/public/images/product/16203905201.jpeg', '/public/images/product/16203905202.jpg', NULL, NULL, '11', NULL, 7, 1, 1, 250.00, 1, 0, '2021-05-07 06:58:40', '2021-05-07 06:58:40'),
 (20, 'Lower', 'This is one of puma best brand shoes', '/public/images/product/16203905251.jpeg', '/public/images/product/16203905252.jpg', NULL, NULL, '11', NULL, 7, 1, 1, 250.00, 1, 0, '2021-05-07 06:58:45', '2021-05-07 06:58:45'),
 (21, 'upper', 'This is one of puma best brand shoes', '/public/images/product/16203905301.jpeg', '/public/images/product/16203905302.jpg', NULL, NULL, '11', NULL, 7, 1, 1, 250.00, 1, 0, '2021-05-07 06:58:50', '2021-05-07 06:58:50'),
-(22, 'Suit custom', 'This is one of puma best brand shoes', '/public/images/product/16203905371.jpeg', '/public/images/product/16203905372.jpg', NULL, NULL, '11', NULL, 7, 1, 1, 250.00, 1, 0, '2021-05-07 06:58:57', '2021-05-07 06:58:57');
+(22, 'Suit custom', 'This is one of puma best brand shoes', '/public/images/product/16203905371.jpeg', '/public/images/product/16203905372.jpg', NULL, NULL, '11', NULL, 7, 1, 1, 250.00, 1, 0, '2021-05-07 06:58:57', '2021-05-07 06:58:57'),
+(26, 'IGI', 'Game IGI playing', '/public/images/product/16209701071.jpeg', NULL, NULL, NULL, '17', NULL, NULL, 9, 3, 78.00, 1, 0, '2021-05-13 23:58:27', '2021-05-13 23:58:27'),
+(27, 'FREE FIRE', 'Game FREE FIRE playing', '/public/images/product/16209705661.jpg', NULL, NULL, NULL, '17', NULL, NULL, 9, 3, 50.00, 1, 0, '2021-05-14 00:06:06', '2021-05-14 00:06:06'),
+(28, 'SUBWAY SURF', 'Game SUBWAY playing', '/public/images/product/16209706091.jpg', NULL, NULL, NULL, '17', NULL, NULL, 9, 3, 20.00, 1, 0, '2021-05-14 00:06:49', '2021-05-14 00:06:49');
 
 -- --------------------------------------------------------
 
@@ -492,7 +501,11 @@ INSERT INTO `sizes` (`id`, `name`, `type`, `subsubcategory_id`, `subcategory_id`
 (1, 'L', NULL, 1, 1, 1, 1, 0, '2021-05-07 01:28:15', '2021-05-07 01:49:17'),
 (2, 'X', NULL, 5, 2, 1, 1, 0, '2021-05-07 01:28:42', '2021-05-07 01:28:42'),
 (3, 'XL', NULL, 5, 2, 1, 1, 0, '2021-05-07 01:28:55', '2021-05-07 01:28:55'),
-(4, 'X', NULL, 7, 1, 1, 1, 0, '2021-05-07 01:37:56', '2021-05-07 01:37:56');
+(4, 'X', NULL, 7, 1, 1, 1, 0, '2021-05-07 01:37:56', '2021-05-07 01:37:56'),
+(5, '6', NULL, 10, 2, 1, 1, 0, '2021-05-17 00:59:19', '2021-05-17 00:59:19'),
+(6, '8', NULL, 10, 2, 1, 1, 0, '2021-05-17 00:59:19', '2021-05-17 00:59:19'),
+(7, '12', NULL, 10, 2, 1, 1, 0, '2021-05-17 00:59:19', '2021-05-17 00:59:19'),
+(8, '13', NULL, 10, 2, 1, 1, 0, '2021-05-17 00:59:19', '2021-05-17 00:59:19');
 
 -- --------------------------------------------------------
 
@@ -524,7 +537,8 @@ INSERT INTO `subcategories` (`id`, `image`, `en_subcategory`, `ar_subcategory`, 
 (5, '/public/images/subcategory/default.png', 'Computers ', 'أجهزة الكمبيوتر', 5, 1, 0, NULL, NULL),
 (6, '/public/images/subcategory/1620211563.jpeg', 'make-up', 'ميك أب', 7, 1, 0, '2021-05-05 05:16:03', '2021-05-05 05:27:33'),
 (7, '/public/images/subcategory/1620220544.jpeg', 'home furniture', 'الأثاث المنزلي', 6, 1, 0, '2021-05-05 07:45:44', '2021-05-05 07:45:44'),
-(8, '/public/images/subcategory/1620365707.jpg', 'outdoor furniture', 'الأثاث في الهواء الطلق', 6, 1, 0, '2021-05-07 00:05:07', '2021-05-07 00:05:07');
+(8, '/public/images/subcategory/1620365707.jpg', 'outdoor furniture', 'الأثاث في الهواء الطلق', 6, 1, 0, '2021-05-07 00:05:07', '2021-05-07 00:05:07'),
+(9, '/public/images/subcategory/1620967449.png', 'Childrens games', 'العاب اطفال', 3, 1, 0, '2021-05-13 23:14:09', '2021-05-13 23:14:09');
 
 -- --------------------------------------------------------
 
@@ -556,7 +570,8 @@ INSERT INTO `subsubcategories` (`id`, `image`, `en_subsubcategory`, `ar_subsubca
 (6, '/public/images/subsubcategory/1620364737.jpg', 'shirts', 'قمصان', '2', '1', 1, 0, '2021-05-06 23:48:57', '2021-05-06 23:48:57'),
 (7, '/public/images/subsubcategory/1620364820.jpeg', 'Tops', 'بلايز', '1', '1', 1, 0, '2021-05-06 23:50:20', '2021-05-06 23:50:20'),
 (8, '/public/images/subsubcategory/1620365775.png', 'dining', 'تناول الطعام', '8', '6', 1, 0, '2021-05-07 00:06:15', '2021-05-07 00:06:15'),
-(9, '/public/images/subsubcategory/1620365881.jpeg', 'living rooms', 'غرف المعيشة', '7', '6', 1, 0, '2021-05-07 00:08:01', '2021-05-07 00:08:01');
+(9, '/public/images/subsubcategory/1620365881.jpeg', 'living rooms', 'غرف المعيشة', '7', '6', 1, 0, '2021-05-07 00:08:01', '2021-05-07 00:08:01'),
+(10, '/public/images/subsubcategory/1621232456.jpeg', 'shoes', 'أحذية', '2', '1', 1, 0, '2021-05-17 00:50:56', '2021-05-17 00:51:21');
 
 -- --------------------------------------------------------
 
@@ -581,7 +596,7 @@ CREATE TABLE `trackings` (
 --
 
 INSERT INTO `trackings` (`id`, `order_id`, `ordered_date`, `package_date`, `transporting_date`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'ORDER9677002555', '2021-05-11 15:13:33', NULL, NULL, 1, 0, NULL, NULL);
+(1, 'ORDER181401511999', '2021-05-11 15:13:33', NULL, NULL, 1, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -626,7 +641,7 @@ CREATE TABLE `users` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `commercial_reg_num` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `category_id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
   `bio` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `otp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fcm_token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -648,7 +663,9 @@ INSERT INTO `users` (`id`, `image`, `name`, `email`, `email_verified_at`, `passw
 (5, '/public/images/user/1620199389.jpg', 'faiz', 'john@mailinator.com', NULL, '$2y$10$lj3k58VPRsSCjv71FFAcd.m5ZqLt2iDVscKAOxwmLN7ql1n8pfQHi', '9898547525', 'DA25254', 6, 'hi this is bio section', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', '5rnSV0wzAyahHYdI12NZb3YoLWnQrbvCN1Ns', '2', 1, 0, NULL, '2021-05-03 09:17:42', '2021-05-11 05:36:29'),
 (9, '/public/images/user/1620643212.jpg', 'Rehat', 'john1@mailinator.com', NULL, '$2y$10$UVJftTgEoHjlFKsCAikq5eNLbJVTlxSYPK/62vL9EP7CKfLAbEitS', '9898547522', '12525544444', 0, 'test test test', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'eJv7BfvCuMNXOksoyWCeeuA6mmAd1YmgBDwX', '1', 1, 0, NULL, '2021-05-03 09:23:35', '2021-05-10 05:10:12'),
 (11, '/public/images/user/default.png', 'joram', 'joram@mailinator.com', NULL, '$2y$10$.kw1ajVaMS0pCJskGVFeDu6jRwWOgCK9OkgbGc7DWy8IfBbA.QFmS', '9898547544', '12525544444', 1, NULL, NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'PsmgS72SyFPf3LzZiI2KqC2zuxfi5H4mMMVW', '2', 1, 0, NULL, '2021-05-07 00:27:33', '2021-05-12 23:19:36'),
-(16, '/public/images/user/1620199389.jpg', 'chloe', 'chloe@mailinator.com', NULL, '$2y$10$lj3k58VPRsSCjv71FFAcd.m5ZqLt2iDVscKAOxwmLN7ql1n8pfQHi', '989854755', 'DA25254S', 6, 'i am doe', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'qL8c6RQNbTljTZtm058nzfGvnHTFkeRg5Irj', '2', 1, 0, NULL, '2021-05-03 09:17:42', '2021-05-07 00:30:46');
+(16, '/public/images/user/1620199389.jpg', 'chloe', 'chloe@mailinator.com', NULL, '$2y$10$lj3k58VPRsSCjv71FFAcd.m5ZqLt2iDVscKAOxwmLN7ql1n8pfQHi', '989854755', 'DA25254S', 6, 'i am doe', NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'qL8c6RQNbTljTZtm058nzfGvnHTFkeRg5Irj', '2', 1, 0, NULL, '2021-05-03 09:17:42', '2021-05-07 00:30:46'),
+(17, '/public/images/user/default.png', 'gamer', 'gamer@mailinator.com', NULL, '$2y$10$FjakUvLdc/WvVOeuDq/eO.IW7PZUj71lSHJrdnHUDIir4eeGW8Ix.', '7888885454', '12525844', 3, NULL, NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'FqWZsmyXK37iCctUvYAx5Eq3wQrg45uAyRtu', '2', 1, 0, NULL, '2021-05-13 23:46:15', '2021-05-13 23:46:15'),
+(18, '/public/images/user/default.png', 'helen', 'helen@mailinator.com', NULL, '$2y$10$tQIMKsZBc1mDqHHcLXMaPuU8gQVtvWuhtJcO1B5kcdm6de.lZFS9W', '8888554411', NULL, NULL, NULL, NULL, 'f5d4f54sf5sd4f5s4af5', 'fs4f4dsff54sfa5s4df5sd4f5', 'oGei5qmMXMDwUJCGKcbCr2V0H7AXef9vyA6A', '1', 1, 0, NULL, '2021-05-17 01:17:18', '2021-05-17 01:17:18');
 
 -- --------------------------------------------------------
 
@@ -675,7 +692,8 @@ INSERT INTO `vendor_subcategories` (`id`, `subcategory_id`, `category_id`, `vend
 (1, 7, 6, 5, 1, 0, '2021-05-03 09:17:42', '2021-05-03 09:17:42'),
 (2, 8, 6, 5, 1, 0, '2021-05-03 09:17:42', '2021-05-03 09:17:42'),
 (3, 1, 1, 11, 1, 0, '2021-05-07 00:27:33', '2021-05-07 00:27:33'),
-(4, 2, 1, 11, 1, 0, '2021-05-07 00:27:33', '2021-05-07 00:27:33');
+(4, 2, 1, 11, 1, 0, '2021-05-07 00:27:33', '2021-05-07 00:27:33'),
+(5, 9, 3, 17, 1, 0, '2021-05-13 23:46:15', '2021-05-13 23:46:15');
 
 --
 -- Indexes for dumped tables
@@ -830,7 +848,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -842,7 +860,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `colors`
 --
 ALTER TABLE `colors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -860,7 +878,7 @@ ALTER TABLE `follows`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -872,19 +890,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `product_colors`
@@ -908,19 +926,19 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `sizes`
 --
 ALTER TABLE `sizes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `subcategories`
 --
 ALTER TABLE `subcategories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `subsubcategories`
 --
 ALTER TABLE `subsubcategories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `trackings`
@@ -938,13 +956,13 @@ ALTER TABLE `types`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `vendor_subcategories`
 --
 ALTER TABLE `vendor_subcategories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

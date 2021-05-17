@@ -45,7 +45,7 @@
                                
                                <input type="hidden" name="color_id" value="{{ base64_encode($color->id)}}">
 
-                                 <div class="form-group col-sm-12">
+                                 <div class="form-group col-sm-6">
                                     <label>Category</label>
                                     <select name="category" class="form-control" id="category">
                                         <option value="">--select--</option>
@@ -56,6 +56,20 @@
                                         @endif
                                     </select>
                                      <p class="text-danger">{{ $errors->first('category') }}</p>
+                                </div>
+
+
+                                 <div class="form-group col-sm-6">
+                                    <label>Subcategory</label>
+                                    <select name="subcategory" class="form-control" id="subcategory">
+                                         @if(isset($subcategory) && count($subcategory) > 0)
+                                        @foreach($subcategory as $row )
+                                        <option value="{{ $row->id }}" {{ $row->id == $color->subcategory_id ? "selected":""}}>{{ $row->en_subcategory }}</option>
+                                        @endforeach
+                                        @endif
+                                       
+                                    </select>
+                                     <p class="text-danger">{{ $errors->first('subcategory') }}</p>
                                 </div>
 
                               
@@ -71,18 +85,7 @@
 
                                
 
-                                 <div class="form-group col-sm-6">
-                                    <label>Subcategory</label>
-                                    <select name="subcategory" class="form-control" id="subcategory">
-                                         @if(isset($subcategory) && count($subcategory) > 0)
-                                        @foreach($subcategory as $row )
-                                        <option value="{{ $row->id }}" {{ $row->id == $color->subcategory_id ? "selected":""}}>{{ $row->en_subcategory }}</option>
-                                        @endforeach
-                                        @endif
-                                       
-                                    </select>
-                                     <p class="text-danger">{{ $errors->first('subcategory') }}</p>
-                                </div>
+                                
 
 
                                  <div class="form-group col-sm-6">
@@ -98,11 +101,8 @@
                                      <p class="text-danger">{{ $errors->first('sub_subcategory') }}</p>
                                 </div>
 
-                                </div>
 
-
-                                 <div class="row">
-                                <div class="form-group col-sm-6">
+                                 <div class="form-group col-sm-6">
                                     <label>Type</label>
                                     <select name="type" class="form-control" id="type">
                                         @if(isset($type) && count($type) > 0)
@@ -115,11 +115,17 @@
                                      <p class="text-danger">{{ $errors->first('type') }}</p>
                                 </div>
 
+                                </div>
+
+
+                                 <div class="row">
+                               
+
 
                                  <div class="form-group col-sm-6">
-                                    <label>Size</label>
+                                    <label>Color</label>
                                     <input type="color" class="form-control" name="color" value="{{ $color->name }}" style="height: 35px;">
-                                    <p class="text-danger">{{ $errors->first('size') }}</p>
+                                    <p class="text-danger">{{ $errors->first('color') }}</p>
                                 </div>
 
                                 </div>

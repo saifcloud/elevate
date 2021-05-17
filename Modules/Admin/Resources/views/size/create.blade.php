@@ -45,7 +45,7 @@
                                
 
 
-                                 <div class="form-group col-sm-12">
+                                 <div class="form-group col-sm-6">
                                     <label>Category</label>
                                     <select name="category" class="form-control" id="category">
                                         <option value="">--select--</option>
@@ -57,6 +57,17 @@
                                     </select>
                                      <p class="text-danger">{{ $errors->first('category') }}</p>
                                 </div>
+
+
+                                 <div class="form-group col-sm-6">
+                                    <label>Subcategory</label>
+                                    <select name="subcategory" class="form-control" id="subcategory">
+                                        
+                                       
+                                    </select>
+                                     <p class="text-danger">{{ $errors->first('subcategory') }}</p>
+                                </div>
+
 
                               
 
@@ -71,15 +82,7 @@
 
                                
 
-                                 <div class="form-group col-sm-6">
-                                    <label>Subcategory</label>
-                                    <select name="subcategory" class="form-control" id="subcategory">
-                                        
-                                       
-                                    </select>
-                                     <p class="text-danger">{{ $errors->first('subcategory') }}</p>
-                                </div>
-
+                                
 
                                  <div class="form-group col-sm-6">
                                     <label>Subsubcategory</label>
@@ -90,11 +93,8 @@
                                      <p class="text-danger">{{ $errors->first('sub_subcategory') }}</p>
                                 </div>
 
-                                </div>
 
-
-                                 <div class="row">
-                                <div class="form-group col-sm-6">
+                                 <div class="form-group col-sm-6">
                                     <label>Type</label>
                                     <select name="type" class="form-control" id="type">
                                         
@@ -103,12 +103,35 @@
                                      <p class="text-danger">{{ $errors->first('type') }}</p>
                                 </div>
 
+                                </div>
 
-                                 <div class="form-group col-sm-6">
+
+                                 <div class="row more-data-size">
+                               
+
+
+                                <!--  <div class="form-group col-sm-6">
                                     <label>Size</label>
                                     <input type="text" class="form-control" name="size" required>
                                     <p class="text-danger">{{ $errors->first('size') }}</p>
                                 </div>
+ -->
+
+
+                                 <div class="form-group col-sm-12 row">
+
+                                    <div class="form-group col-sm-6">
+                                        <label>Size</label>
+                                        <input type="text" class="form-control" name="size[]" style="height: 35px;">
+                                        <p class="text-danger">{{ $errors->first('size') }}</p>
+                                    </div>
+
+
+                                   <div class="form-group col-sm-6">
+                                   <button class="add_field_button_size btn btn-info" style="margin-top: 29px;">Add More</button>
+                                   </div>
+                                </div>
+
 
                                 </div>
 

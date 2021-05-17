@@ -45,6 +45,11 @@ class ColorController extends Controller
     public function store(Request $request)
     {
         //
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
+
+
          $request->validate([
         // 'type' =>'required',
         'sub_subcategory' =>'required', 
@@ -56,16 +61,25 @@ class ColorController extends Controller
         // $file = $request->image;
         // $filename = time().'.'.$file->getClientOriginalExtension();
         // $file->move('public/images/subsubcategory',$filename);
+        
+        foreach ($request->color as $key => $value) {
 
-        $color = new Color;
-        $color->name = $request->color;
-        $color->type = $request->type;
-        $color->subsubcategory_id = $request->sub_subcategory;
-        $color->subcategory_id = $request->subcategory;
-        $color->category_id = $request->category;
-        // $subsubcategory->image       = '/public/images/subsubcategory/'.$filename;
-        $color->save();
-        return  redirect('admin/color')->with('success','Size added successfully.');
+            $checkcolor = Color::where('name',$value)->where('is_deleted',0)->first();
+
+            if(empty($checkcolor)){
+                $color = new Color;
+                $color->name              = $value;
+                $color->type              = $request->type;
+                $color->subsubcategory_id = $request->sub_subcategory;
+                $color->subcategory_id    = $request->subcategory;
+                $color->category_id       = $request->category;
+                // $subsubcategory->image       = '/public/images/subsubcategory/'.$filename;
+                $color->save();
+            }
+           
+        }
+       
+        return  redirect('admin/color')->with('success','Color added successfully.');
     }
 
     /**
@@ -118,6 +132,17 @@ class ColorController extends Controller
         // $file = $request->image;
         // $filename = time().'.'.$file->getClientOriginalExtension();
         // $file->move('public/images/subsubcategory',$filename);
+        
+        $colorcheck = Color::where('color',$request->color)
+        ->where('id','!=',base64_decode($request->color_id))
+        ->where('category',$request->category)
+        ->where('subcategory',$request->subcategory)
+        ->where('sub_subcategory',$request->sub_subcategory)
+        ->where('is_deleted',0)
+        ->first();
+
+        if(!empty($colorcheck)) return back()->with('failed','Color already exist in this sub sub sub-category');
+
 
         $color = Color::find(base64_decode($request->color_id));
         $color->name = $request->color;

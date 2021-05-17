@@ -167,7 +167,49 @@ $.ajaxSetup({
     } );
 </script>
 
+<!-- size -->
+<script type="text/javascript">
+	$(document).ready(function(){
+     
 
+     $('.add_field_button_size').click(function(e){ 
+     	e.preventDefault();
+        
+       $('.more-data-size').append('  <div class="form-group col-sm-12 row"><div class="form-group col-sm-6"><label>Size</label><input type="text" class="form-control" name="size[]" style="height: 35px;"><p class="text-danger">{{ $errors->first('size') }}</p></div> <div class="form-group col-sm-1" style="margin-top:22px;"><label></label><a href="javascript:void(0)" class="btn btn-danger  remove_field" style="margin-top:-19px;">Remove</a></div></div>');
+       });
+
+
+      $('body').on("click",".remove_field",function(e){ 
+          // e.preventDefault();
+          // alert('ok');
+           $(this).parent().parent('div').remove();
+        });
+
+	});
+</script>
+
+
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+     
+
+     $('.add_field_button').click(function(e){ 
+     	e.preventDefault();
+        
+       $('.more-data').append('  <div class="form-group col-sm-12 row"><div class="form-group col-sm-6"><label>Color</label><input type="color" class="form-control" name="color[]" style="height: 35px;"><p class="text-danger">{{ $errors->first('color') }}</p></div> <div class="form-group col-sm-1" style="margin-top:22px;"><label></label><a href="javascript:void(0)" class="btn btn-danger  remove_field" style="margin-top:-19px;">Remove</a></div></div>');
+       });
+
+
+      $('body').on("click",".remove_field",function(e){ 
+          // e.preventDefault();
+          // alert('ok');
+           $(this).parent().parent('div').remove();
+        });
+
+	});
+</script>
 
 
 </body>

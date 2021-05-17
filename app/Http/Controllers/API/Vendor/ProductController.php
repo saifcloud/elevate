@@ -160,15 +160,17 @@ class ProductController extends Controller
         $product->category_id          = $user->category_id;
         $product->save();
 
-        
-        foreach (explode(",", $request->size) as $key => $value) {
-            # code...
-            $p_size = new Product_size;
-            $p_size->size_id    = $value;
-            $p_size->product_id = $product->id;
-            $p_size->save();
+        if(isset($request->size) && count($request->size) > 0 ){
+            foreach (explode(",", $request->size) as $key => $value) {
+                # code...
+                $p_size = new Product_size;
+                $p_size->size_id    = $value;
+                $p_size->product_id = $product->id;
+                $p_size->save();
+            }
         }
-
+         
+         if(isset($request->color) &&  count($request->color) > 0 ){
          foreach ($request->color as $key => $value) {
            
            
@@ -208,6 +210,8 @@ class ProductController extends Controller
           
           
         
+            }
+
         }
        $data['status']  = true;
        $data['message'] = 'Item added successfully.';

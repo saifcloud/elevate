@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Order_details;
+use Carbon\Carbon;
 
 class CartController extends Controller
 {
@@ -38,6 +39,9 @@ class CartController extends Controller
        $cartRaw = Cart::where('status',1)->where('is_deleted',0)->get();
         
         $cartRaw2 =[];
+        $cart =[];
+
+        if(count($cartRaw) > 0){
         foreach ($cartRaw as $key => $value) {
             # code...
             $cartRaw2[$value->vendor_id][] = [
@@ -53,7 +57,7 @@ class CartController extends Controller
 
 
           // 
-         $cart =[];
+         
         foreach ($cartRaw2 as $key => $value) {
            
             $prod = [];
@@ -75,12 +79,14 @@ class CartController extends Controller
 
             $vendor = User::find($key);
             $cart[] =  [
-                'id' => $vendor->id,
+                'vendor_id' => $vendor->id,
                 'name' => $vendor->name,
                 'total_amount' =>array_sum($totalAmount),
                 'products'=>$prod
             ];
         }
+
+      }
 
         // return $cart;
 
@@ -95,8 +101,8 @@ class CartController extends Controller
                            'image'=>$value1->product->img1,
                            'title'=>$value1->product->title,
                            'qty'=>$value1->qty,
-                           'color'=>$value1->color->name,
-                           'size'=>$value1->size->name,
+                           'color'=>($value1->color) ? $value1->color->name:'',
+                           'size'=>($value1->size) ? $value1->size->name:'',
                            'amount'=>$value1->amount *$value1->qty,
                 ];
              }
@@ -107,14 +113,17 @@ class CartController extends Controller
                         'subtotal'=> $value->total,
                         'shopping_fee'=> 2,
                         'VAT'=> 3,
-                        'total'=>$value->total
+                        'total'=>$value->total,
+                        'order_successfully'=>Carbon::parse($value->created_at)->format('d-m-Y'),
+                        'package_date'=>($value->package_date) ?Carbon::parse($value->package_date)->format('d-m-Y'):'',
+                        'transporting_date'=>($value->transporting_date) ? Carbon::parse($value->transporting_date)->format('d-m-Y'):''
              ];
              
         }
        // print_r($tracking); die;
 
         $previous = [];
-        $previousRaw =   Order::where('user_id',$user->id)->where('is_deleted',0)->where('delivery_status',0)->get();
+        $previousRaw =   Order::where('user_id',$user->id)->where('is_deleted',0)->where('delivery_status',1)->get();
 
         foreach ($previousRaw as $key => $value) {
             
@@ -125,8 +134,8 @@ class CartController extends Controller
                            'image'=>$value1->product->img1,
                            'title'=>$value1->product->title,
                            'qty'=>$value1->qty,
-                           'color'=>$value1->color->name,
-                           'size'=>$value1->size->name,
+                           'color'=>($value1->color) ? $value1->color->name:'',
+                           'size'=>($value1->size) ? $value1->size->name:'',
                            'amount'=>$value1->amount * $value1->qty,
                 ];
              }
@@ -191,9 +200,9 @@ class CartController extends Controller
 
         if(empty($request->product_id)) return response()->json(['status'=>false,'message'=>'Product id is required.']);
 
-        if(empty($request->color_id)) return response()->json(['status'=>false,'message'=>'Color id is required.']);
+        // if(empty($request->color_id)) return response()->json(['status'=>false,'message'=>'Color id is required.']);
 
-        if(empty($request->size_id)) return response()->json(['status'=>false,'message'=>'SIze id is required.']);
+        // if(empty($request->size_id)) return response()->json(['status'=>false,'message'=>'SIze id is required.']);
        
         $product = Product::find($request->product_id);
         

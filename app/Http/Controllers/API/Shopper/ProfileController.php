@@ -39,8 +39,8 @@ class ProfileController extends Controller
          'name'=>$user->name,
          'email'=>$user->email,
          'phone'=>$user->phone,
-         'bio'=>$user->bio,
-         'followers'=>$user->follower->count(),,
+         'bio'=>($user->bio) ? $user->bio:'',
+         'followers'=>$user->follower->count(),
          'following'=>$user->following->count()
          ];
 
@@ -157,11 +157,11 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    // public function store(Request $request)
+    // {
+    //     //
 
-    }
+    // }
 
     /**
      * Show the form for editing the specified resource.

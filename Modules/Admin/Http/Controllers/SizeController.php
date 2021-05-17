@@ -56,15 +56,21 @@ class SizeController extends Controller
         // $file = $request->image;
         // $filename = time().'.'.$file->getClientOriginalExtension();
         // $file->move('public/images/subsubcategory',$filename);
+         
+        foreach ($request->size as $key => $value) {
 
-        $subsubcategory = new Size;
-        $subsubcategory->name = $request->size;
-        $subsubcategory->type = $request->type;
-        $subsubcategory->subsubcategory_id = $request->sub_subcategory;
-        $subsubcategory->subcategory_id = $request->subcategory;
-        $subsubcategory->category_id = $request->category;
-        // $subsubcategory->image       = '/public/images/subsubcategory/'.$filename;
-        $subsubcategory->save();
+        $checksize = Size::where('name',$value)->where('is_deleted',0)->first();
+            if(empty($checksize)){
+            $subsubcategory = new Size;
+            $subsubcategory->name = $value;
+            $subsubcategory->type = $request->type;
+            $subsubcategory->subsubcategory_id = $request->sub_subcategory;
+            $subsubcategory->subcategory_id = $request->subcategory;
+            $subsubcategory->category_id = $request->category;
+            // $subsubcategory->image       = '/public/images/subsubcategory/'.$filename;
+            $subsubcategory->save();
+           }
+       }
         return  redirect('admin/size')->with('success','Size added successfully.');
     }
 
@@ -117,6 +123,17 @@ class SizeController extends Controller
         // $file = $request->image;
         // $filename = time().'.'.$file->getClientOriginalExtension();
         // $file->move('public/images/subsubcategory',$filename);
+        
+
+        $colorcheck = Size::where('name',$request->size)
+        ->where('id','!=',base64_decode($request->size_id))
+        ->where('category_id',$request->category)
+        ->where('subcategory_id',$request->subcategory)
+        ->where('subsubcategory_id',$request->sub_subcategory)
+        ->where('is_deleted',0)
+        ->first();
+
+        if(!empty($colorcheck)) return back()->with('failed','Size already exist in this category and subcategory sub sub-category');
 
         $subsubcategory = Size::find(base64_decode($request->size_id));
         $subsubcategory->name = $request->size;

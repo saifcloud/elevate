@@ -78,6 +78,7 @@ class ShopperController extends Controller
             foreach ($value->review as $key2 => $value2) {
                $rawRewiew[] = [
                 'id'     =>$value2->user->id,
+                'name'   =>$value2->user->image,
                 'name'   =>$value2->user->name,
                 'comment'=>$value2->comment,
                 'date'   =>Carbon::parse($value2->created_at)->format('d F Y ')
@@ -86,7 +87,7 @@ class ShopperController extends Controller
 
 
         $product[] = [
-                    'id'                =>$value->user->id,
+                    'vendor_id'           =>$value->user->id,
                     'vendor_image'      =>$value->user->image,
                     'vendor_name'       =>$value->user->name,
                     'category'          =>$value->category->en_category,
@@ -266,8 +267,8 @@ class ShopperController extends Controller
                     'id'=>$value->user->id,
                     'vendor_image'=>$value->user->image,
                     'vendor_name'=>$value->user->name,
-                    'category'=>$value->category->en_category,
-                    'category'=>$value->category->ar_category,
+                    'en_category'=>$value->category->en_category,
+                    'ar_category'=>$value->category->ar_category,
                     'brief'=>"New Collection from ".$value->user->name,
                     'product_id'=>$value->id,
                     'image1'=>$value->img1,

@@ -12,9 +12,9 @@
                     <span>Welcome,</span>
                     <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{ Auth::guard('admin')->user()->name}}</strong></a>
                     <ul class="dropdown-menu dropdown-menu-right account">
-                        <li><a href="page-profile.html"><i class="icon-user"></i>My Profile</a></li>
-                        <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
-                        <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
+                        <li><a href="#"><i class="icon-user"></i>My Profile</a></li>
+                      <!--   <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
+                        <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li> -->
                         <li class="divider"></li>
                         <li><a href="{{ url('admin/logout')}}"><i class="icon-power"></i>Logout</a></li>
                     </ul>
