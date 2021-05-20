@@ -1,0 +1,57 @@
+
+var express = require('express');
+var app = express();
+
+var indexRouter = require('./routes/index');
+// var usersRouter = require('./routes/users');
+// var jobsiteRouter = require('./routes/jobsite');
+// var projectManagerRouter = require('./routes/project_manager');
+// var yardRoute   = require('./routes/yard');
+
+
+
+
+
+app.use('/dynamatep/w', indexRouter);
+// app.use('/dynamatep/users', usersRouter);
+// app.use('/dynamatep/users/jobsite', jobsiteRouter);
+// app.use('/dynamatep/users/project-manager', projectManagerRouter);
+// app.use('/dynamatep/users/yard', yardRoute);
+
+// app.get('/dynamatep',function(req,res){
+//     return res.json({message:"helloooooo"});
+// })
+
+
+
+app.get('/dynamatep', function (req, res) {
+    try{
+         res.send('Hello World!')
+    }catch(err){
+         res.send(err)
+    }
+ 
+})
+
+app.listen(4001)
+
+
+
+
+// catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
+
+// // error handler
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
+
+module.exports = app;
