@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 20, 2021 at 04:38 PM
+-- Generation Time: May 21, 2021 at 05:03 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -50,6 +50,63 @@ INSERT INTO `admins` (`id`, `image`, `name`, `email`, `email_verified_at`, `pass
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `appointments`
+--
+
+CREATE TABLE `appointments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `coach_id` int(11) DEFAULT NULL,
+  `booking_date` datetime DEFAULT NULL,
+  `duration` varchar(255) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `amount` double DEFAULT NULL,
+  `transaction_id` varchar(255) DEFAULT NULL,
+  `payment_status` int(11) DEFAULT 0,
+  `status` int(11) DEFAULT 1,
+  `is_deleted` int(11) DEFAULT 0,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `user_id`, `coach_id`, `booking_date`, `duration`, `category_id`, `amount`, `transaction_id`, `payment_status`, `status`, `is_deleted`, `createdAt`, `updatedAt`) VALUES
+(1, 11, 9, '2021-05-21 00:00:00', '02:30', 1, 50, NULL, 0, 3, 0, '2021-05-21 07:09:26', '2021-05-21 11:57:11'),
+(2, 11, 10, '2021-05-21 00:00:00', '02:30', 1, 50, NULL, 0, 1, 0, '2021-05-21 07:52:43', '2021-05-21 07:52:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cards`
+--
+
+CREATE TABLE `cards` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name_on_card` varchar(255) DEFAULT NULL,
+  `card_number` varchar(255) DEFAULT NULL,
+  `expire_date` date DEFAULT NULL,
+  `status` int(11) DEFAULT 1,
+  `is_deleted` int(11) DEFAULT 0,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cards`
+--
+
+INSERT INTO `cards` (`id`, `user_id`, `name_on_card`, `card_number`, `expire_date`, `status`, `is_deleted`, `createdAt`, `updatedAt`) VALUES
+(9, 11, 'John Doe', '88854448888', '2021-05-01', 1, 0, '2021-05-21 09:48:41', '2021-05-21 09:48:41'),
+(10, 11, 'John Doe', '000854448888', '2021-05-01', 1, 0, '2021-05-21 09:48:48', '2021-05-21 09:48:48'),
+(11, 11, 'John Doe', '88854448588', '2021-05-01', 1, 0, '2021-05-21 09:55:34', '2021-05-21 09:55:34');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
@@ -74,6 +131,28 @@ INSERT INTO `categories` (`id`, `image`, `category`, `status`, `is_deleted`, `cr
 (4, '/public/images/category/1621338449.jpg', 'Gymnastic', 1, 0, '2021-05-18 06:17:29', '2021-05-18 06:17:29'),
 (5, '/public/images/category/1621338462.jpg', 'Gym', 1, 0, '2021-05-18 06:17:42', '2021-05-18 06:17:42'),
 (6, '/public/images/category/1621338478.jpeg', 'Volleyball', 1, 0, '2021-05-18 06:17:58', '2021-05-18 06:17:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `favourites`
+--
+
+CREATE TABLE `favourites` (
+  `id` int(11) NOT NULL,
+  `coach_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `category_id` int(11) NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `favourites`
+--
+
+INSERT INTO `favourites` (`id`, `coach_id`, `user_id`, `category_id`, `createdAt`, `updatedAt`) VALUES
+(6, 9, 11, 1, '2021-05-21 13:11:05', '2021-05-21 13:11:05');
 
 -- --------------------------------------------------------
 
@@ -104,15 +183,23 @@ INSERT INTO `privacies` (`id`, `title`, `description`, `createdAt`, `updatedAt`)
 
 CREATE TABLE `reviews` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `coach_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `rating` int(11) NOT NULL,
   `comment` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1 COMMENT '1=>active',
   `is_deleted` int(11) NOT NULL DEFAULT 0 COMMENT '1=>deleted',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `createdAt` timestamp NULL DEFAULT NULL,
+  `updatedAt` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `coach_id`, `user_id`, `rating`, `comment`, `status`, `is_deleted`, `createdAt`, `updatedAt`) VALUES
+(1, 9, 11, 4, 'One of best coach in our city', 1, 0, '2021-05-21 05:54:10', '2021-05-21 05:54:10'),
+(2, 9, 12, 4, 'One of best coach in our city', 1, 0, '2021-05-21 05:54:19', '2021-05-21 05:54:19');
 
 -- --------------------------------------------------------
 
@@ -133,7 +220,11 @@ INSERT INTO `SequelizeMeta` (`name`) VALUES
 ('20210204055009-create-category.js'),
 ('20210204090954-create-setting.js'),
 ('20210520062543-create-service.js'),
-('20210520121200-create-privacy.js');
+('20210520121200-create-privacy.js'),
+('20210521054109-create-review.js'),
+('20210521062856-create-appointment.js'),
+('20210521092825-create-card.js'),
+('20210521122029-create-favourite.js');
 
 -- --------------------------------------------------------
 
@@ -213,9 +304,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `image`, `name`, `email`, `email_verified_at`, `password`, `phone`, `bio`, `document`, `experience`, `location`, `lat`, `long`, `otp`, `fcm_token`, `device_token`, `role`, `status`, `is_deleted`, `remember_token`, `createdAt`, `updatedAt`) VALUES
-(9, '/backend/public/images/user/1621510534726.png', 'emma', 'saif.cloudwapp@gmail.com', NULL, '$2a$10$9VAdvbHRLQSC.MBj1MaJiuH8NaYEtXcvnvFri3OO/6f30NJX489wC', '9753244000', 'testeststsadf', '/backend/public/images/documents/1621512312047.png', 'afsfsdffs', 'indore', '22.7244', '75.8839', NULL, 'f4f45dsf4dsf5sd4f5fs5f45s', 'ffdfdsf74dsf864sf5f4asf564', '2', 0, 0, NULL, '2021-05-20 06:18:34', '2021-05-20 12:05:12'),
-(10, '/public/images/user/default.png', 'saif1', 'saif1.cloudwapp@gmail.com', NULL, '$2a$10$ExrO8KY7H1LVUpWE6tWRcOVuJqIxFmH6y9mofVaHxMc.miucbB6.C', '7896541235', NULL, NULL, NULL, 'ujjain', '22.7244', '75.8839', NULL, 'f4f45dsf4dsf5sd4f5fs5f45s', 'ffdfdsf74dsf864sf5f4asf564', '2', 0, 0, NULL, '2021-05-20 11:57:03', '2021-05-20 11:57:03'),
-(11, '/public/images/user/default.png', 'john', 'john.cloudwapp@gmail.com', NULL, '$2a$10$Bk21fxFeFsSKNY1xpFkrx.e4J20pgARcHh1E6CYMORl1AGPEOgS62', '1414145221', NULL, NULL, NULL, 'indore', '22.7244', '75.8839', NULL, 'f4f45dsf4dsf5sd4f5fs5f45s', 'ffdfdsf74dsf864sf5f4asf564', '1', 0, 0, NULL, '2021-05-20 12:22:06', '2021-05-20 12:28:29');
+(9, '/backend/public/images/user/1621510534726.png', 'emma', 'saif.cloudwapp@gmail.com', NULL, '$2a$10$9VAdvbHRLQSC.MBj1MaJiuH8NaYEtXcvnvFri3OO/6f30NJX489wC', '9753244000', 'testeststsadf', '/backend/public/images/documents/1621512312047.png', 'afsfsdffs', 'indore', '22.7244', '75.8839', NULL, 'f4f45dsf4dsf5sd4f5fs5f45s', 'ffdfdsf74dsf864sf5f4asf564', '2', 1, 0, NULL, '2021-05-20 06:18:34', '2021-05-20 12:05:12'),
+(10, '/public/images/user/default.png', 'saif1', 'saif1.cloudwapp@gmail.com', NULL, '$2a$10$ExrO8KY7H1LVUpWE6tWRcOVuJqIxFmH6y9mofVaHxMc.miucbB6.C', '7896541235', NULL, NULL, NULL, 'ujjain', '22.7244', '75.8839', NULL, 'f4f45dsf4dsf5sd4f5fs5f45s', 'ffdfdsf74dsf864sf5f4asf564', '2', 1, 0, NULL, '2021-05-20 11:57:03', '2021-05-20 11:57:03'),
+(11, '/public/images/user/default.png', 'john', 'john.cloudwapp@gmail.com', NULL, '$2a$10$Bk21fxFeFsSKNY1xpFkrx.e4J20pgARcHh1E6CYMORl1AGPEOgS62', '1414145221', NULL, NULL, NULL, 'indore', '12111.22', '12245.22', NULL, 'f4f45dsf4dsf5sd4f5fs5f45s', 'ffdfdsf74dsf864sf5f4asf564', '1', 1, 0, NULL, '2021-05-20 12:22:06', '2021-05-21 05:50:28'),
+(12, '/public/images/user/default.png', 'nathan', 'nathan.cloudwapp@gmail.com', NULL, '$2a$10$Bk21fxFeFsSKNY1xpFkrx.e4J20pgARcHh1E6CYMORl1AGPEOgS62', '4655555555', 'nathannathannathannathannathannathannathan', NULL, NULL, 'indore', '12111.22', '12245.22', NULL, 'f4f45dsf4dsf5sd4f5fs5f45s', 'ffdfdsf74dsf864sf5f4asf564', '1', 1, 0, NULL, '2021-05-20 12:22:06', '2021-05-21 05:50:28');
 
 --
 -- Indexes for dumped tables
@@ -229,9 +321,27 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `admins_email_unique` (`email`);
 
 --
+-- Indexes for table `appointments`
+--
+ALTER TABLE `appointments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cards`
+--
+ALTER TABLE `cards`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `favourites`
+--
+ALTER TABLE `favourites`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -283,10 +393,28 @@ ALTER TABLE `admins`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `appointments`
+--
+ALTER TABLE `appointments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `cards`
+--
+ALTER TABLE `cards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `favourites`
+--
+ALTER TABLE `favourites`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `privacies`
@@ -298,7 +426,7 @@ ALTER TABLE `privacies`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -316,7 +444,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
